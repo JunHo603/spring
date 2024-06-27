@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,10 +12,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name="lms_notices")
 public class Lms_notices {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lms_notices_seq")
     private Long lmsNoticesSeq;
 
@@ -24,7 +27,7 @@ public class Lms_notices {
     @Column(name = "lms_notices_title", length = 100)
     private String lmsNoticesTitle;
 
-    @Column(name = "lms_notices_content", length = 255)
+    @Column(name = "lms_notices_content", length = 2500)
     private String lmsNoticesContent;
 
     @ManyToOne

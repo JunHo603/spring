@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Entity
 @Table(name="lecture")
 public class Lecture {
@@ -52,16 +54,16 @@ public class Lecture {
     @Column(name = "education_price")
     private Long educationPrice;
 
-    @Column(name = "education_overview", length = 255)
+    @Column(name = "education_overview", length = 1000)  /* 교육개요 */
     private String educationOverview;
 
-    @Column(name = "learning_objectives", length = 255)
+    @Column(name = "learning_objectives", length = 1500) /* 학습목표 */
     private String learningObjectives;
 
-    @Column(name = "learning_object", length = 255)
+    @Column(name = "learning_object", length = 500)      /* 학습대상 */
     private String learningObject;
 
-    @Column(name = "textbook_information", length = 255)
+    @Column(name = "textbook_information", length = 500) /* 교재정보 */
     private String textbookInformation;
 
     @Column(name = "completion_criteria_total_point", length = 100)
