@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="092945a9-f6cf-499c-a299-2b5dabfa62e4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/CategoryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/CourseHistoryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/CourseRegistrationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/LearningContentsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/LearningReviewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/LectureController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/TeacherController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/repository/CategoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/repository/CourseHistoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/repository/CourseRegistrationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/repository/LearningContentsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/repository/LearningReviewRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/repository/LectureRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/repository/TeacherRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/service/CategoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/service/CourseHistoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/service/CourseRegistrationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/service/LearningContentsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/service/LearningReviewService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/service/LectureService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/service/TeacherService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Project1.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/ViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/controller/ViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/dto/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Authority.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Authority.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Code_class_detail.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Code_class_detail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Course_history.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Course_history.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Course_registration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Learning_contents.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Learning_contents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Learning_review.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Learning_review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Lecture.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Lecture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Teacher.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/Teacher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/java/com/dw/lms/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/resources/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/resources/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/resources/static/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/resources/static/js/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lms/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../lms/src/main/resources/templates/login.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2i4o5GWXOmDQAMPjZMxIkNwYNcb" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/admin/Documents/Github/spring/wholesale_company"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="092945a9-f6cf-499c-a299-2b5dabfa62e4" name="Changes" comment="" />
+      <created>1718759025846</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718759025846</updated>
+    </task>
+    <servers />
+  </component>
+</project>
