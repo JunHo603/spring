@@ -104,6 +104,7 @@ document.querySelector(".registrationBtn").addEventListener("click", () => {
 
           document.querySelector(".login-box").classList.remove("hidden"); // 로그인 box 보이도록
           document.querySelector(".signup-box").classList.add("hidden"); // 회원가입 box 안보이도록
+          alert("회원가입이 완료되었습니다.")
         }
       })
       .catch((error) => {
@@ -127,33 +128,33 @@ document
     document.querySelector(".signup-box").classList.add("hidden"); // 회원가입 box 안보이도록
   });
 
-/* 로그아웃 */
+  /* 로그아웃 */
 document.querySelector(".logoutBtn").addEventListener("click", () => {
   // if (confirm("로그아웃 하시겠습니까?")) {
-  axios
-    .post(urlLogout, {}, { withCredentials: true })
-    .then((response) => {
-      console.log("데이터: ", response);
-      if (response.status == 200) {
-        document.querySelector(".login-box").classList.remove("hidden");
-        document.querySelector(".user-box").classList.add("hidden");
-        window.location.href = "main.html";
-      }
-    })
-    .catch((error) => {
-      console.log("에러 발생: ", error);
-    });
+    axios
+      .post(urlLogout, {}, { withCredentials: true })
+      .then((response) => {
+        console.log("데이터: ", response);
+        if (response.status == 200) {
+          document.querySelector(".login-box").classList.remove("hidden");
+          document.querySelector(".user-box").classList.add("hidden");
+          window.location.href = "main.html";
+        }
+      })
+      .catch((error) => {
+        console.log("에러 발생: ", error);
+      });
   // }
 });
 
 /* 입장 */
-document.querySelector(".connectBtn").addEventListener("click", function () {
+document.querySelector('.connectBtn').addEventListener('click', function() {
   // 페이지 이동을 위한 URL 설정
-  var url = "main.html"; // main.html로 이동
-
+  var url = 'main.html'; // main.html로 이동
+  
   // 현재 창에서 페이지를 열기
   window.location.href = url;
-
+  
   // 혹은 새로운 탭에서 열기
   // window.open(url, '_blank');
 });
@@ -171,7 +172,7 @@ function sessionCurrent() {
           document.querySelector(".user-box").classList.remove("hidden");
           document.querySelector(".user-box p").textContent =
             "로그아웃 하시겠습니까?";
-          //response.data.userId + "님, 환영합니다.";
+            //response.data.userId + "님, 환영합니다.";
           //window.location.href = "main.html";
         }
       }

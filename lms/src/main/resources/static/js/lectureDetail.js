@@ -312,7 +312,7 @@ function ReviewSearch(dataList) {
     document.querySelector(".reviewUl").classList.add("hidden");
     const none = document.querySelector(".review-box");
     const p = document.createElement("p");
-    p.textContent = "후기가 없습니다.";
+    p.textContent = "강의 후기가 없습니다.";
     none.appendChild(p);
   } else {
     dataList.forEach((data, index) => {
@@ -341,14 +341,58 @@ function ReviewSearch(dataList) {
       tr.appendChild(date);
       tr.appendChild(score);
 
-      tr.addEventListener("click", () => {
-        const lectureId = data.course_registration.lecture.lectureId;
-        const userId = data.course_registration.user.userId;
-        window.location.href =
-          "reviewDetail.html?lectureId=" + lectureId + "&userId=" + userId;
-      });
+      // revireDetail로 넘어감
+      // tr.addEventListener("click", () => {
+      //   const lectureId = data.course_registration.lecture.lectureId;
+      //   const userId = data.course_registration.user.userId;
+      //   window.location.href =
+      //     "reviewDetail.html?lectureId=" + lectureId + "&userId=" + userId;
+      // });
+
+      // 리뷰 보기
+      const moreTr = document.createElement("tr");
+      const moreText = document.createElement("td");
+      moreText.setAttribute("colspan", "3");
+      moreText.textContent = data.learningReviewContent;
+      moreTr.appendChild(moreText);
+
+      // const moreDate = document.createElement("td");
+      // moreDate.classList.add("seq");
+      // moreDate.textContent = data.learningReviewDate;
+      // moreTr.appendChild(moreDate);
+
+      // review 작성자 익명처리
+      let userNameKor = data.course_registration.user.userNameKor;
+      if (userNameKor.length >= 2) {
+        userNameKor =
+          userNameKor.substring(0, 1) + "●" + userNameKor.substring(2); // 2번째 자리를 '●'로 대체
+      }
+
+      const moreId = document.createElement("td");
+      moreId.classList.add("seq");
+      moreId.textContent = "작성자 : " + userNameKor;
+      moreTr.appendChild(moreId);
+
+      moreTr.classList.add("hidden");
+      moreTr.classList.add("upBtn");
+      tr.classList.add("downBtn");
 
       reviewTable.appendChild(tr);
+      reviewTable.appendChild(moreTr);
+
+      // 리뷰 내용 보기
+      let toggleState = false;
+      tr.addEventListener("click", () => {
+        if (toggleState === false) {
+          moreTr.classList.remove("hidden");
+          tr.classList.add("tableOption");
+          toggleState = true;
+        } else {
+          moreTr.classList.add("hidden");
+          tr.classList.remove("tableOption");
+          toggleState = false;
+        }
+      });
     });
   }
 }

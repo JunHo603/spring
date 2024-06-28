@@ -5,23 +5,24 @@
       format("woff");
     font-weight: normal;
     font-style: normal;
-  }
-  
-  /* 전체적용 */
-  * {
+}
+
+/* 전체적용 */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Poppins, GmarketSansMedium;
     text-decoration: none;
     color: inherit;
-  }
-  .root {
+}
+
+.root {
     width: 80%;
     margin: 0 auto;
-  }
+}
 
-/* body {
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -32,42 +33,23 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-} */
-
-/* header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
-} */
-
-/* header nav a {
-    margin: 0 10px;
-    color: white;
-    text-decoration: none;
 }
 
-header nav button {
-    padding: 5px 10px;
-    background-color: #007BFF;
-    border: none;
-    color: white;
-    cursor: pointer;
-} */
-
 .content {
-    width: 100%; 
-    display: grid;
-    grid-template-columns: 1.5fr 8.5fr;
+    display: flex;
+    flex-grow: 1;
 }
 
 aside {
-    width: 100%;
+    flex: 0 0 15%;
     background-color: #f4f4f4;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+aside:hover {
+    background-color: #eaeaea;
 }
 
 aside ul {
@@ -80,36 +62,48 @@ aside ul li {
 }
 
 aside ul li a {
+    display: block;
+    padding: 10px;
     text-decoration: none;
-    color: black;
+    color: #333;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+aside ul li a:hover {
+    background-color: #007BFF;
+    color: white;
 }
 
 aside ul li a.active {
     font-weight: bold;
-    color: #007BFF;
+    background-color: #007BFF;
+    color: white;
 }
 
 main {
     flex-grow: 1;
     padding: 20px;
     background-color: #fafafa;
+    min-height: 81vh;
 }
-
 .events {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    /* flex-wrap: wrap;
+    justify-content: space-between; */
 }
 
 .event {
-    width: calc(25% - 10px);
-    margin: 10px 0;
+    width: 95%;
+    margin: 10px;
     padding: 10px;
     border: 1px solid #ddd;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    display: table;
 }
 
 .event:hover {
@@ -132,9 +126,12 @@ main {
     word-break: keep-all;
 }
 
-.event p {
-    font-size: 12px;
-    color: #999;
+.event div {
+    font-size: 14px;
+    color: #666;
+    display : table-row;
+    vertical-align : bottom;
+    margin: 3px;
 }
 
 .eventcontent {
@@ -160,6 +157,14 @@ main {
     border-radius: 5px;
 }
 
+.event div {
+    font-size: 14px;
+    color: #666;
+    display : table-row;
+    vertical-align : bottom;
+    margin: 3px;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -172,10 +177,3 @@ main {
     padding: 5px 10px;
     cursor: pointer;
 }
-/* 
-footer {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    text-align: center;
-} */
