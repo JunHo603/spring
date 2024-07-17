@@ -152,28 +152,28 @@ public class LectureProgressService {
     private EntityManager entityManager;
     public List<Object[]> progressQueryDto( String userId,String lectureId){
         String sqlQuery = "SELECT A.learning_contents_seq " +
-                "     , B.learning_contents " +
-                "     , A.progress_rate " +
-                "     , A.learning_count " +
-                "     , IFNULL(DATE_FORMAT(A.last_learning_datetime, '%Y-%m-%d %H:%i:%s'),'') as last_learning_datetime " +
-                "     , IFNULL(concat('(', DATE_FORMAT(A.complete_learning_datetime, '%Y-%m-%d %H:%i:%s'), ')'),'') as complete_learning_datetime " +
-                "     , IF(LENGTH(IFNULL(A.learning_time,'')) = 0,'', concat(mid(A.learning_time,1,2),'시', " +
-                "              mid(A.learning_time,3,2),'분', " +
-                "              mid(A.learning_time,5,2),'초')) as learning_time " +
-                "     , concat('(',  " +
-                "              mid(B.learning_playtime,1,2),'시', " +
-                "              mid(B.learning_playtime,3,2),'분', " +
-                "              mid(B.learning_playtime,5,2),'초', ')') as learning_playtime " +
-                "     , learning_pdf_path " +
-                "     , learning_video_path " +
-                "  FROM lecture_progress  A " +
-                "  LEFT JOIN " +
-                "       learning_contents B " +
-                "    ON ( A.lecture_id            = B.lecture_id " +
-                "     AND A.learning_contents_seq = B.learning_contents_seq) " +
-                " WHERE A.user_id    = :userId " +
-                "   AND A.lecture_id = :lectureId " +
-                " ORDER BY A.learning_contents_seq ";
+                    "     , B.learning_contents " +
+                    "     , A.progress_rate " +
+                    "     , A.learning_count " +
+                    "     , IFNULL(DATE_FORMAT(A.last_learning_datetime, '%Y-%m-%d %H:%i:%s'),'') as last_learning_datetime " +
+                    "     , IFNULL(concat('(', DATE_FORMAT(A.complete_learning_datetime, '%Y-%m-%d %H:%i:%s'), ')'),'') as complete_learning_datetime " +
+                    "     , IF(LENGTH(IFNULL(A.learning_time,'')) = 0,'', concat(mid(A.learning_time,1,2),'시', " +
+                    "              mid(A.learning_time,3,2),'분', " +
+                    "              mid(A.learning_time,5,2),'초')) as learning_time " +
+                    "     , concat('(',  " +
+                    "              mid(B.learning_playtime,1,2),'시', " +
+                    "              mid(B.learning_playtime,3,2),'분', " +
+                    "              mid(B.learning_playtime,5,2),'초', ')') as learning_playtime " +
+                    "     , learning_pdf_path " +
+                    "     , learning_video_path " +
+                    "  FROM lecture_progress  A " +
+                    "  LEFT JOIN " +
+                    "       learning_contents B " +
+                    "    ON ( A.lecture_id            = B.lecture_id " +
+                    "     AND A.learning_contents_seq = B.learning_contents_seq) " +
+                    " WHERE A.user_id    = :userId " +
+                    "   AND A.lecture_id = :lectureId " +
+                    " ORDER BY A.learning_contents_seq ";
         Query query = entityManager.createNativeQuery(sqlQuery);
         query.setParameter("userId", userId);
         query.setParameter("lectureId", lectureId);
