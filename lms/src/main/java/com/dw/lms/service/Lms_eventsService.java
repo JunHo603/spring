@@ -1,6 +1,7 @@
 package com.dw.lms.service;
 
 import com.dw.lms.model.Lms_events;
+import com.dw.lms.model.Teacher;
 import com.dw.lms.repository.Lms_eventsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,10 @@ public class Lms_eventsService {
 
     @Autowired
     private Lms_eventsRepository lmsEventsRepository;
+
+    public List<Lms_events> getAllEvent(){
+        return lmsEventsRepository.findAll();
+    }
 
     public Lms_events saveLmsEvent(Lms_events lmsEvent) {
         return lmsEventsRepository.save(lmsEvent);
