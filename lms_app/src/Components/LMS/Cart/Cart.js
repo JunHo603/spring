@@ -1,23 +1,66 @@
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "../../../Api/UserApi/UserApi";
+import { saveCourseRegistration } from "../../../Api/CourseApi/CourseApi";
 
 export function Cart() {
   const [cart, setCart] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
     cartList();
   }, []);
 
+  // 수강신청
+  async function courseAdd() {
+    if (checkedItems.length === 0) {
+      alert("수강신청할 항목을 선택해주세요.");
+      return;
+    }
+
+    const confirm = window.confirm(
+      `선택한 ${checkedItems.length}개의 항목을 수강신청 하시겠습니까?`
+    );
+    if (!confirm) {
+      return;
+    }
+
+    try {
+      for (const lectureId of checkedItems) {
+        const courseRegistration = {
+          user: {
+            userId: userId,
+          },
+          lecture: {
+            lectureId: lectureId,
+          },
+        };
+        await saveCourseRegistration(courseRegistration);
+
+        let updatedCart = cart.filter(
+          (item) => !checkedItems.includes(item.lectureId)
+        );
+
+        // localStorage 업데이트
+        localStorage.setItem(userId, JSON.stringify(updatedCart));
+        setCart(updatedCart);
+        setCheckedItems([]);
+        setSelectAll(false);
+      }
+      alert("선택된 항목들이 수강신청 되었습니다.");
+    } catch (error) {
+      console.log("Course Error", error);
+    }
+  }
+
   // 장바구니 리스트
   async function cartList() {
-    let userId;
-    let cartList;
     try {
       const SessionData = await getCurrentUser();
-      userId = SessionData.userId;
-      cartList = JSON.parse(localStorage.getItem(userId));
+      const userId = SessionData.userId;
+      setUserId(userId);
+      const cartList = JSON.parse(localStorage.getItem(userId));
       setCart(cartList);
     } catch (error) {
       console.log("Cart List Error");
@@ -45,9 +88,11 @@ export function Cart() {
 
   async function cartRemove() {
     // 사용자에게 삭제 확인 대화상자 표시
-    const confirm = window.confirm("정말로 선택된 항목을 삭제하시겠습니까?");
+    const confirm = window.confirm(
+      `선택한 ${checkedItems.length}개의 항목을 장바구니에서 삭제하시겠습니까?`
+    );
     if (!confirm) {
-      return; // 사용자가 취소를 클릭하면 삭제를 중단
+      return;
     }
 
     try {
@@ -55,12 +100,10 @@ export function Cart() {
       const userId = SessionData.userId;
       let cartList = JSON.parse(localStorage.getItem(userId)) || [];
 
-      // 체크된 항목을 필터링하여 삭제
       cartList = cartList.filter(
         (item) => !checkedItems.includes(item.lectureId)
       );
 
-      // localStorage와 상태 업데이트
       localStorage.setItem(userId, JSON.stringify(cartList));
       setCart(cartList);
       setCheckedItems([]);
@@ -104,6 +147,9 @@ export function Cart() {
       <p>　</p>
       <p>*CartRemove*</p>
       <button onClick={cartRemove}>삭제</button>
+      <p>　</p>
+      <p>*Course Add*</p>
+      <button onClick={courseAdd}>수강하기</button>
     </>
   );
 }

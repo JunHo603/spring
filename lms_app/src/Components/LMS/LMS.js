@@ -2,18 +2,22 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Home } from "./Home/Home";
 import { Cart } from "./Cart/Cart";
-import { MyPage } from "./MyPage/MyPage";
+import { Course } from "./Course/Course";
 import { Community } from "./Community/Community";
-import { Login } from "./Login/Login";
-import { Logout } from "./Login/Logout";
+
+// import { Login } from "./Login/Login";
+import { LoginMain } from "./Login/LoginMain";
+
 import { Error } from "./Error";
 import { Lecture } from "./Lecture/Lecture";
 import { LectureList } from "./Lecture/LectureList";
-
 import { Search } from "./Search/Search";
 import styled from "styled-components";
 import { LMSWrapper } from "./LMSWrapper";
-import { Admin } from "./Admin/Admin";
+
+import { AdminSidebar } from "./Admin/AdminSidebar";
+import { MyPageSidebar } from "./MyPage/MyPageSidebar";
+
 import { LectureDetail } from "./Lecture/LectureDetail";
 
 const Container = styled.div`
@@ -52,22 +56,26 @@ export function LMS() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/lecture" element={<LMSWrapper />}>
                   <Route index element={<LectureList />} />
+                  {/* // pathvariable */}
+                  <Route path=":id" element={<Lecture />} />
                 </Route>
                 <Route
                   path="/lectures/:lectureId"
                   element={<LectureDetail />}
                 />
-
-                <Route path="/search" element={<Search />} />
+                {/* <Route path="/search" element={<Search />} /> */}
                 <Route path="/cart" element={<Cart />} />
-                <Route path="/mypage" element={<MyPage />} />
+                <Route path="/mypage/*" element={<MyPageSidebar />} />
 
                 <Route path="/community" element={<Community />} />
 
-                <Route path="/login" element={<Login />} />
+                {/* <Route path="/login" element={<Login />} /> */}
+                <Route path="/login" element={<LoginMain />} />
 
-                <Route path="/admin/user" element={<Admin />} />
-                {/* <Route path="*" element={<Error />} /> */}
+                <Route path="/admin/*" element={<AdminSidebar />} />
+                {/* <Route path="/course/:userId/:lectureId" element={<Course />} /> */}
+                <Route path="/course/:userId/:lectureId" element={<Course />} />
+                <Route path="*" element={<Error />} />
               </Routes>
             </ContentBox>
           </Section>

@@ -16,7 +16,7 @@ export function EnrollmentManagement() {
 
     useEffect(() => {
         axios
-            .get(url)
+            .get(url, { withCredentials: true })
             .then((response) => {
                 const items = Array.isArray(response.data)
                     ? response.data
@@ -79,12 +79,12 @@ export function EnrollmentManagement() {
                         </tbody>
                     </table>
                 </div>
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
             </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 }

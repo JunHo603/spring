@@ -1,6 +1,9 @@
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { NavItem } from "./NavItem";
 import styled from "styled-components";
+import { getCurrentUser } from "../../Api/UserApi/UserApi";
+// import { useAuth } from "./AuthContext";
 
 const Container = styled.div`
   width: 100%;
@@ -24,36 +27,54 @@ const StyledLink = styled(Link)`
 `;
 
 export function Navbar() {
+  const [current, setCurrent] = useState(false);
+
+  // 로그인&로그아웃
+  useEffect(() => {
+    const currentCheck = async () => {
+      try {
+        const loginCurrent = await getCurrentUser();
+        setCurrent(!!loginCurrent);
+      } catch (error) {
+        console.log(error);
+        setCurrent(false);
+      }
+    };
+    currentCheck();
+  }, []);
+
   return (
     <>
       <Container>
-        {/* <StyledLink to="/">
-                    <NavItem icon="ti ti-home" name="홈"></NavItem>
-                </StyledLink> */}
         <StyledLink to="/home">
           <NavItem icon="ti ti-home" name="홈"></NavItem>
         </StyledLink>
         <StyledLink to="/lecture">
           <NavItem icon="ti ti-device-tv" name="강의"></NavItem>
         </StyledLink>
-        <StyledLink to="/search">
-          <NavItem icon="ti ti-search" name="상세조회"></NavItem>
-        </StyledLink>
+        {/* <StyledLink to="/search">
+                    <NavItem icon="ti ti-search" name="상세조회"></NavItem>
+                </StyledLink> */}
         <StyledLink to="/cart">
           <NavItem icon="ti ti-shopping-cart" name="장바구니"></NavItem>
         </StyledLink>
-        <StyledLink to="/mypage">
+        <StyledLink to="/mypage/user">
           <NavItem icon="ti ti-user" name="마이페이지"></NavItem>
         </StyledLink>
         <StyledLink to="/community">
           <NavItem icon="ti ti-friends" name="커뮤니티"></NavItem>
         </StyledLink>
-        <StyledLink to="/login">
-          <NavItem icon="ti ti-login" name="로그인"></NavItem>
-        </StyledLink>
-
+        {current ? (
+          <StyledLink to="/login">
+            <NavItem icon="ti ti-logout" name="로그아웃" />
+          </StyledLink>
+        ) : (
+          <StyledLink to="/login">
+            <NavItem icon="ti ti-login" name="로그인" />
+          </StyledLink>
+        )}
         <StyledLink to="/admin/user">
-          <NavItem icon="ti ti-settings" name="관리자"></NavItem>
+          <NavItem icon="ti ti-settings" name="관리자" />
         </StyledLink>
       </Container>
     </>
