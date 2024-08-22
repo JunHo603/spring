@@ -82,7 +82,6 @@ export function Course() {
   const [learning, setlearing] = useState([]);
   const [teacher, setTeacher] = useState([]);
   const [lecture, setLecture] = useState([]);
-  const [progress, setProgress] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVideoPath, setSelectedVideoPath] = useState("");
 
@@ -126,7 +125,7 @@ export function Course() {
     setIsModalOpen(false);
     setSelectedVideoPath("");
   };
-
+  console.log(learning);
   return (
     <>
       <p>　</p>
@@ -142,8 +141,8 @@ export function Course() {
       <p>*Progress Data*</p>
       {learning.map((data, index) => (
         <div key={index}>
-          <p>{data.learning_contents_seq}차시</p>
-          <p>{data.learning_contents}</p>
+          <p>{data.learningContentsSeq}차시</p>
+          <p>{data.learningContents}</p>
           <Button onClick={() => openModal(data.learning_video_path)}>
             동영상 보기
           </Button>

@@ -10,7 +10,7 @@ export function Cart() {
 
   useEffect(() => {
     cartList();
-  }, []);
+  }, [cart]);
 
   // 수강신청
   async function courseAdd() {
@@ -60,10 +60,11 @@ export function Cart() {
       const SessionData = await getCurrentUser();
       const userId = SessionData.userId;
       setUserId(userId);
-      const cartList = JSON.parse(localStorage.getItem(userId));
-      setCart(cartList);
+      const getCartList = localStorage.getItem(userId);
+      const cartList = getCartList ? JSON.parse(getCartList) : [];
+      setCart(Array.isArray(cartList) ? cartList : []);
     } catch (error) {
-      console.log("Cart List Error");
+      console.error("Cart List Error:", error);
     }
   }
 
