@@ -6,10 +6,14 @@ import { IndexLecture } from "../Lecture/IndexLecture";
 import { Footer } from "../Footer";
 
 const Container = styled.div`
+  /* box-sizing: border-box;
+  padding: 176px 32px 0 240px;
+  transition: all 0.3s; */
   box-sizing: border-box;
   padding: 176px 32px 0 240px;
   transition: all 0.3s;
-  /* height: auto; */
+  min-height: 100vh;
+  /* margin-bottom: 100px;  */
 `;
 
 export function Index() {
