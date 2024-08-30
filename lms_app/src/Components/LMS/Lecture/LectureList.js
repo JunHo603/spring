@@ -222,19 +222,13 @@ export function LectureList() {
               }}
             >
               <LectureImg src={Lecture.imagePath}></LectureImg>
-              {/* <Text className="content">{Lecture.lectureName}</Text>
-              <Text className="content">
-                장르 : {Lecture.category.categoryName}
-              </Text> */}
+
               <Content className="lectureContent">
                 <h2 style={{ marginBottom: "20px" }}>{Lecture.lectureName}</h2>
                 <p style={{ marginTop: "40px" }}>
                   {Lecture.category.categoryName}
                 </p>
               </Content>
-              {/* <Text className="content">
-                소개글 : {Lecture.educationOverview}
-              </Text> */}
             </LectureContainer>
           ))}
       </Container>
