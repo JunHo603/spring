@@ -78,4 +78,4 @@ const closeButtonStyles = {
   backgroundColor: "#fff",
 };
 
-export default Modal; // Default export
+export default Modal;

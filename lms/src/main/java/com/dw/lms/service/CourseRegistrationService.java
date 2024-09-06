@@ -42,6 +42,31 @@ public class CourseRegistrationService {
         courseRegistrationRepository.deleteById(compositeKey);
     }
 
+//    public List<CourseRegistrationRepository> getCourseRegistraionById(String userId, String lectureId) {
+//        List<Course_registration> courseRegistrationList = courseRegistrationRepository.findAll();
+//        List<Course_registration> courseRegistrationUserId = new ArrayList<>();
+//        List<Course_registration> courseRegistrationLectureId = new ArrayList<>();
+//
+//        for (Course_registration courseRegistration : courseRegistrationList) {
+//            if (courseRegistration.getUser().getUserId().equals(userId)){
+//                courseRegistrationUserId.add(courseRegistration);
+//                for (int i = 0; i < courseRegistrationUserId.size(); i++) {
+//                    if(courseRegistrationUserId.get(i).getLecture().getLectureId().equals(lectureId)){
+//                        courseRegistrationLectureId.add(courseRegistrationUserId.get(i));
+//                    }
+//
+//                }
+//
+//            }
+//        }
+//        return courseRegistrationLectureId;
+//    }
+public List<Course_registration> getCourseRegistraionById(String userId, String lectureId) {
+
+    return courseRegistrationRepository.findByUser_UserIdAndLecture_LectureId(userId, lectureId);
+}
+
+
     public List<Course_registration> getAllRegistration() {
         return courseRegistrationRepository.findAll();
     }

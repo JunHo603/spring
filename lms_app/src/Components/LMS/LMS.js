@@ -22,6 +22,7 @@ import { CommunitySidebar } from "./Community/CommunitySidebar";
 
 import { LectureDetail } from "./Lecture/LectureDetail";
 import { UnityProject } from "../../Components/Unity/UnityProject";
+import { RightSidebar } from "./Sidebar";
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +30,6 @@ const Container = styled.div`
 `;
 const Section = styled.div`
   width: 100%;
-  height: auto;
 `;
 const Menu = styled.div`
   width: 100%;
@@ -53,7 +53,7 @@ export function LMS() {
                 {/* <Route path="/" element={<Home />} /> */}
                 <Route path="/index" element={<Index />} />
 
-                <Route path="/" element={<Navigate replace to="/home" />} />
+                <Route path="/" element={<Navigate replace to="/login" />} />
                 <Route path="/home" element={<UnityProject />} />
                 <Route path="/lecture" element={<LMSWrapper />}>
                   <Route index element={<LectureList />} />
@@ -78,6 +78,7 @@ export function LMS() {
                 {/* <Route path="/course/:userId/:lectureId" element={<Course />} /> */}
                 <Route path="/course/:userId/:lectureId" element={<Course />} />
                 <Route path="*" element={<Error />} />
+                <Route path="/sidebar" element={<RightSidebar />} />
               </Routes>
             </ContentBox>
           </Section>

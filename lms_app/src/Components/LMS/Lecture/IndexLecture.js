@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { getAllLecture } from "../../../Api/LectureApi/LectureApi";
+import styled, { keyframes } from "styled-components";
+import {
+  getAllLecture,
+  getCategoryLecture,
+} from "../../../Api/LectureApi/LectureApi";
+import { useNavigate } from "react-router-dom";
 
 const TitleText = styled.p`
   font-size: 35px;
@@ -19,8 +23,8 @@ const TitleContainer = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 270px;
-  height: 270px;
+  width: 300px;
+  height: 300px;
   transform-style: preserve-3d;
   transform: perspective(1000px) rotateY(${(props) => props.rotation}deg);
   transition: transform 0.7s;
@@ -51,7 +55,7 @@ const Btn = styled.button`
   border: 1px solid #cccccc;
   border-radius: 4px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 20px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 
@@ -107,10 +111,165 @@ export function IndexLecture() {
           ))}
         </ImageContainer>
         <BtnContainer>
-          <Btn onClick={() => updateGallery(x + 45)}>Prev</Btn>
-          <Btn onClick={() => updateGallery(x - 45)}>Next</Btn>
+          <Btn onClick={() => updateGallery(x + 45)}>◀</Btn>
+          <Btn onClick={() => updateGallery(x - 45)}>▶</Btn>
         </BtnContainer>
       </TitleContainer>
+    </>
+  );
+}
+
+const ImgContainer = styled.div`
+  width: 100%;
+  border-bottom: 1px solid #1a1b24;
+`;
+
+const ImgContent = styled.img`
+  width: 100%;
+  margin: 80px 0;
+  cursor: pointer;
+`;
+
+export function IndexLectureImg() {
+  const navigate = useNavigate();
+  return (
+    <>
+      <ImgContainer>
+        <ImgContent
+          src="/image/Main1.png"
+          onClick={() => navigate(`/lecture`)}
+        />
+      </ImgContainer>
+    </>
+  );
+}
+
+const LectureBox = styled.div`
+  width: 100%;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  justify-items: center;
+  align-items: center;
+`;
+
+const LectureContainer = styled.div`
+  margin: 0 10px;
+  aspect-ratio: 1 / 0.7;
+  border-radius: 8px;
+  position: relative;
+  background-color: #000000;
+  overflow: hidden;
+  box-shadow: 0 0 20px #eee;
+  cursor: pointer;
+  width: 70%;
+
+  &:hover img {
+    filter: grayscale(1) brightness(0.4);
+  }
+
+  &:hover::after {
+    opacity: 1;
+    inset: 20px;
+  }
+
+  &:hover .lectureContent {
+    opacity: 1;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid white;
+    border-radius: inherit;
+    opacity: 0;
+    transition: 0.4s ease-in-out;
+  }
+`;
+
+const LectureImg = styled.img`
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s ease-in-out;
+  }
+`;
+
+const Content = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  opacity: 0;
+  transition: 0.5s ease-in-out;
+  width: 75%;
+  background-color: transparent;
+`;
+
+const BestText = styled.p`
+  margin-top: 30px;
+  font-size: 35px;
+  font-weight: 800;
+  color: #fff;
+`;
+
+export function BestLecture() {
+  const [lecture, setLecture] = useState([]);
+  const [keyword, setKeyword] = useState("추천");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    Axios();
+  }, []);
+
+  async function Axios() {
+    const lectureData = await getCategoryLecture(keyword);
+    console.log("1", lectureData);
+    setLecture(lectureData.slice(0, 3));
+  }
+  console.log(keyword);
+  console.log(lecture);
+
+  return (
+    <>
+      <BestText>추천강의</BestText>
+      <LectureBox>
+        {lecture &&
+          lecture.map((Lecture) => (
+            <LectureContainer
+              key={Lecture.lectureId}
+              onClick={() => {
+                navigate(`/lectures/${Lecture.lectureId}`);
+              }}
+            >
+              <LectureImg src={Lecture.imagePath}></LectureImg>
+
+              <Content className="lectureContent">
+                <h2
+                  style={{
+                    marginBottom: "20px",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  {Lecture.lectureName}
+                </h2>
+                <p
+                  style={{ marginTop: "40px", backgroundColor: "transparent" }}
+                >
+                  {Lecture.category.categoryName}
+                </p>
+              </Content>
+            </LectureContainer>
+          ))}
+      </LectureBox>
     </>
   );
 }

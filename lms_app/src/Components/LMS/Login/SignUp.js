@@ -122,8 +122,9 @@ const SignUp = ({ onSuccess }) => {
         );
         if (response.status === 201) {
           alert("회원가입이 완료되었습니다.");
+          window.location.href = "login";
         }
-        navigate("/home");
+        // navigate("/index");
       } catch (error) {
         console.log("회원가입 에러 발생: ", error);
       }

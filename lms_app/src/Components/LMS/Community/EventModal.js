@@ -79,4 +79,4 @@ const closeButtonStyles = {
   backgroundColor: "#fff",
 };
 
-export default EventModal; // Default export
+export default EventModal;

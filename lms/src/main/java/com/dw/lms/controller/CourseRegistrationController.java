@@ -19,6 +19,12 @@ public class CourseRegistrationController {
     @Autowired
     CourseRegistrationService courseRegistrationService;
 
+    @GetMapping("/course/registration/{userId}/{lectureId}")
+    public ResponseEntity<List<Course_registration>> getCourseRegistraionById(
+            @PathVariable String userId, @PathVariable String lectureId) {
+        List<Course_registration> courseRegistrations = courseRegistrationService.getCourseRegistraionById(userId, lectureId);
+        return ResponseEntity.ok(courseRegistrations);
+    }
     @DeleteMapping("/course/delCourseRegistration/{userId}/{lectureId}")
     public void deleteCourseRegistration(@PathVariable String userId, @PathVariable String lectureId) {
         courseRegistrationService.deleteCourseRegistration(userId, lectureId);

@@ -18,6 +18,7 @@ const BoardContainer = styled.div`
   padding: 20px;
   margin: 0 auto;
   float: right;
+  border-bottom: 1px solid #1a1b24;
 `;
 
 const Notices = styled.div`
@@ -98,8 +99,6 @@ export function IndexCommunity() {
     setEventModalOpen(false);
     setSelectedEvent(null);
   };
-
-  console.log(events);
 
   return (
     <BoardContainer>

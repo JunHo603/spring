@@ -90,6 +90,7 @@ public class UserController {
     @GetMapping("current") // 현재 세션의 주인의 정보를 알고 싶을때 사용 // "/user/current"
     public SessionDto getCurrentUser() { // 리턴값 String 에서 SessionDto 로 변경
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new IllegalStateException("User is not authenticated");
         }
@@ -98,9 +99,11 @@ public class UserController {
         SessionDto sessionDto = new SessionDto();
         sessionDto.setUserId(authentication.getName());
 
+
         Optional<User> userOptional = userRepository.findByUserId(authentication.getName());
         if (userOptional.isPresent()){
             sessionDto.setUserName(userOptional.get().getUserNameKor());
+            sessionDto.setEmail(userOptional.get().getEmail());
         }
 
         sessionDto.setAuthority(authentication.getAuthorities());

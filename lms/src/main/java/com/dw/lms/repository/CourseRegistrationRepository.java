@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface CourseRegistrationRepository extends JpaRepository<Course_registration, Course_registration_CK> {
     @Query("SELECT u FROM Course_registration u WHERE u.user = :userId")
     List<Course_registration> findByUserId(@Param("userId") String userId);
+
+    List<Course_registration> findByUser_UserIdAndLecture_LectureId(String userId, String lectureId);
 }

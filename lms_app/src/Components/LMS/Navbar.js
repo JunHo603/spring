@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import { NavItem } from "./NavItem";
 import styled from "styled-components";
 import { getCurrentUser } from "../../Api/UserApi/UserApi";
+import {
+  CartIcon,
+  LoginIcon,
+  LogoutIcon,
+  SettingIcon,
+  UserInfoIcon,
+} from "../../Utils/svg";
+import axios from "axios";
 // import { useAuth } from "./AuthContext";
 
 const Container = styled.nav`
@@ -24,7 +32,7 @@ const Header = styled.div`
 
 const StyledLink = styled(Link)`
   height: 44px;
-  padding: 0 6px;
+  padding: 0 15px;
   font-size: 14px;
   line-height: 44px;
   border-radius: 8px;
@@ -32,6 +40,19 @@ const StyledLink = styled(Link)`
   transition: all 0.1s;
   color: #9da2b9;
   position: relative;
+`;
+
+const LogoutBox = styled.div`
+  height: 44px;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 44px;
+  border-radius: 8px;
+  background-color: transparent;
+  transition: all 0.1s;
+  color: #9da2b9;
+  position: relative;
+  cursor: pointer;
 `;
 
 export function Navbar() {
@@ -57,6 +78,23 @@ export function Navbar() {
       setCurrent(false);
     }
   }
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/user/logout",
+        {},
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        setIsAuthenticated(false);
+
+        window.location.href = "login";
+      }
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
+  };
 
   return (
     <>
@@ -64,27 +102,28 @@ export function Navbar() {
         <Header>
           {current ? (
             <StyledLink to="/mypage/user">
-              <NavItem icon="ti ti-user" />
+              <UserInfoIcon />
             </StyledLink>
           ) : null}
           <StyledLink to="/cart">
-            <NavItem icon="ti ti-shopping-cart" />
+            <CartIcon />
           </StyledLink>
           <StyledLink to="/community/notices">
             <NavItem icon="ti ti-friends" />
           </StyledLink>
+
           {current ? (
-            <StyledLink to="/login">
-              <NavItem icon="ti ti-logout" name="로그아웃" />
-            </StyledLink>
+            <LogoutBox onClick={() => handleLogout()}>
+              <LogoutIcon />
+            </LogoutBox>
           ) : (
             <StyledLink to="/login">
-              <NavItem icon="ti ti-login" name="로그인" />
+              <LoginIcon />
             </StyledLink>
           )}
           {role ? (
             <StyledLink to="/admin/user">
-              <NavItem icon="ti ti-settings" name="관리자" />
+              <SettingIcon />
             </StyledLink>
           ) : null}
         </Header>
