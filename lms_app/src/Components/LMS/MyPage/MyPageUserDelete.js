@@ -1,6 +1,5 @@
 ﻿import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import "../../../Styles/styleMypage.css";
 import "../../../Styles/MyPageUserDelete.css";
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -17,15 +16,60 @@ const fadeIn = keyframes`
 `;
 
 const AnimationBox = styled.div`
+  padding: 10px;
   animation: ${fadeIn} 0.6s ease-out;
 `;
 
 const UserDeleteBox = styled.div`
-  padding: 30px 100px 50px 100px;
   width: 100%;
-  /* height: 500px; */
-  /* background-color: whitesmoke; */
-  background-color: transparent;
+`;
+
+const HeaderText = styled.p`
+  color: #556b2f;
+  font-size: 30px;
+  font-weight: 700;
+`;
+
+const Container = styled.div`
+  padding: 50px;
+  width: 100%;
+`;
+
+const TextContainer = styled.div`
+  width: 100%;
+  border: 1px solid #556b2f;
+`;
+
+const TextBox = styled.div`
+  width: 60%;
+  padding: 20px;
+  text-align: left;
+  margin: 0 auto;
+`;
+
+const TextTitle = styled.p`
+  font-size: 28px;
+  color: #556b2f;
+  font-weight: 800;
+  margin-bottom: 10px;
+`;
+
+const DeleteText = styled.p`
+  color: #fff;
+  font-size: 14px;
+  line-height: 50px;
+`;
+
+const CheckBox = styled.div`
+  width: 100%;
+  margin-top: 50px;
+  text-align: center;
+`;
+
+const ChkText = styled.p`
+  margin-left: 20px;
+  color: #fff;
+  display: inline-block;
 `;
 
 export function MyPageUserDelete() {
@@ -34,6 +78,7 @@ export function MyPageUserDelete() {
   const [joinDate, setJoinDate] = useState("");
   const [userDeleteReason, setUserDeleteReason] = useState("");
   const [textMinLengthAlert, setTextMinLengthAlert] = useState(false);
+  const [showTextArea, setShowTextArea] = useState(false); // 텍스트 영역 표시 여부 관리
   const navigate = useNavigate();
 
   const urlCurrent = "http://localhost:8080/user/current";
@@ -41,7 +86,6 @@ export function MyPageUserDelete() {
   const urlLogout = "http://localhost:8080/user/logout";
 
   useEffect(() => {
-    // 로드 시 사용자 정보 요청
     axios
       .get(urlCurrent, { withCredentials: true })
       .then((response) => {
@@ -115,69 +159,72 @@ export function MyPageUserDelete() {
     textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
+  const handleCheckboxChange = (e) => {
+    setShowTextArea(e.target.checked); // 체크박스 상태에 따라 텍스트 영역 표시
+  };
+
   return (
     <AnimationBox>
-      <div className="main-content">
-        <div className="main-top">
-          <UserDeleteBox>
-            <h2 className="userDeleteBoxTitle" style={{ color: "#556b2f" }}>
-              회원탈퇴
-            </h2>
-            <div className="userDeleteContainer">
-              <table className="delete-table">
-                <thead>
-                  <colgroup>
-                    <col style={{ width: "20%" }} />
-                    <col style={{ width: "30%" }} />
-                    <col style={{ width: "35%" }} />
-                    <col style={{ width: "15%" }} />
-                  </colgroup>
-                  <tr className="deleteList deleteList1">
-                    <th style={{ color: "#9da2b9" }}>아이디</th>
-                    <th style={{ color: "#9da2b9" }}>훈련기관명</th>
-                    <th style={{ color: "#9da2b9" }}>가입일</th>
-                    <th style={{ color: "#9da2b9" }}>탈퇴 확인</th>
-                  </tr>
-                  <tr className="deleteList deleteList2">
-                    <td className="deleteUserId" style={{ color: "#fff" }}>
-                      {userId}
-                    </td>
-                    <td className="deleteOffice" style={{ color: "#fff" }}>
-                      {userOffice}
-                    </td>
-                    <td className="deleteJoinDate" style={{ color: "#fff" }}>
-                      {joinDate}
-                    </td>
-                    <td className="deleteSelect" style={{ color: "#fff" }}>
-                      <input className="deleteSelectBox" type="checkbox" />
-                    </td>
-                  </tr>
-                </thead>
-              </table>
-              <h2 className="userDeleteReasonTitle" style={{ color: "#fff" }}>
-                탈퇴사유
-              </h2>
-              <div className="userDeleteReasonBox">
-                <textarea
-                  id="userDeleteReason"
-                  rows="3"
-                  placeholder="탈퇴 사유를 입력해주세요"
-                  onChange={handleDeleteReasonChange}
-                  onInput={handleResizeHeight}
-                ></textarea>
-              </div>
+      <UserDeleteBox>
+        <HeaderText>회원탈퇴</HeaderText>
+        <Container>
+          <TextContainer>
+            <TextBox>
+              <TextTitle>
+                ※ 회원탈퇴를 신청하기 전, 다음 내용을 꼭 확인해주세요.
+              </TextTitle>
+              <DeleteText>
+                ● 고객 정보 및 개인형 서비스 이용 기록은 개인 정보보호 처리 방침
+                기준에 따라 삭제됩니다.
+              </DeleteText>
+              <DeleteText>
+                ● 탈퇴한 계정으로 더 이상 로그인 할 수 없습니다.
+              </DeleteText>
+              <DeleteText>
+                ● 회원 탈퇴 시 더 이상 LMS서비스 사용이 불가능하며, LMS
+                사이트에서도 탈퇴처리됩니다.
+              </DeleteText>
+
+              <CheckBox>
+                <input
+                  className="deleteSelectBox"
+                  type="checkbox"
+                  onChange={handleCheckboxChange} // 체크박스 상태 변경 이벤트 핸들러
+                  style={{ width: "10px", height: "10px" }}
+                />
+                <ChkText>위 약관을 확인했습니다.</ChkText>
+              </CheckBox>
+
+              {/* 체크박스가 체크되었을 때만 텍스트 영역을 표시 */}
+              {showTextArea && (
+                <div
+                  className="userDeleteReasonBox"
+                  style={{ marginTop: "50px" }}
+                >
+                  <textarea
+                    id="userDeleteReason"
+                    rows="3"
+                    placeholder="탈퇴 사유를 입력해주세요"
+                    onChange={handleDeleteReasonChange}
+                    onInput={handleResizeHeight}
+                    style={{ fontSize: "14px", width: "80%" }}
+                  ></textarea>
+                </div>
+              )}
+
               {textMinLengthAlert && (
                 <div className="textMinLengthAlert">
                   *탈퇴 사유를 2자 이상 입력하세요.
                 </div>
               )}
+
               <div className="userDeleteBtn" onClick={handleDeleteClick}>
                 회원탈퇴
               </div>
-            </div>
-          </UserDeleteBox>
-        </div>
-      </div>
+            </TextBox>
+          </TextContainer>
+        </Container>
+      </UserDeleteBox>
     </AnimationBox>
   );
 }
