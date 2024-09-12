@@ -1,6 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const lectureId = urlParams.get("lectureId");
-const url = "http://localhost:8080/lecture/" + lectureId;
+const url = "http://localhost:8080/api/lecture/" + lectureId;
 const contentUrl = "http://localhost:8080/learning/contents/" + lectureId;
 const teacherUrl = "http://localhost:8080/teacher/" + lectureId;
 const reviewUrl = "http://localhost:8080/learning/review/" + lectureId;

@@ -3,7 +3,6 @@ package com.dw.lms.controller;
 import com.dw.lms.dto.AuthorityUpdateDto;
 import com.dw.lms.dto.SessionDto;
 import com.dw.lms.dto.UserDto;
-import com.dw.lms.model.Category;
 import com.dw.lms.model.User;
 import com.dw.lms.repository.UserRepository;
 import com.dw.lms.service.UserDetailService;
@@ -90,7 +89,6 @@ public class UserController {
     @GetMapping("current") // 현재 세션의 주인의 정보를 알고 싶을때 사용 // "/user/current"
     public SessionDto getCurrentUser() { // 리턴값 String 에서 SessionDto 로 변경
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new IllegalStateException("User is not authenticated");
         }
@@ -98,7 +96,6 @@ public class UserController {
         // 유저네임과 권한 Dto 에 적용
         SessionDto sessionDto = new SessionDto();
         sessionDto.setUserId(authentication.getName());
-
 
         Optional<User> userOptional = userRepository.findByUserId(authentication.getName());
         if (userOptional.isPresent()){

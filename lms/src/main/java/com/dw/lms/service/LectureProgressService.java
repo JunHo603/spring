@@ -2,7 +2,6 @@ package com.dw.lms.service;
 
 import com.dw.lms.dto.LectureProgressDto;
 import com.dw.lms.model.Lecture_progress;
-import com.dw.lms.model.User;
 import com.dw.lms.repository.LectureProgressRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,7 +9,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -88,6 +86,10 @@ public class LectureProgressService {
 
         String inputlearningTime = calculLearningTime(previousTime, learningTime);
 
+        System.out.println("previousTime: " + previousTime);
+        System.out.println("learningTime: " + learningTime);
+        System.out.println("inputlearningTime: " + inputlearningTime);
+
         inputLectureProgress.setLearningTime(inputlearningTime);
 
         // 현재 날짜와 시간을 한 번만 가져옴
@@ -152,28 +154,29 @@ public class LectureProgressService {
     private EntityManager entityManager;
     public List<Object[]> progressQueryDto( String userId,String lectureId){
         String sqlQuery = "SELECT A.learning_contents_seq " +
-                    "     , B.learning_contents " +
-                    "     , A.progress_rate " +
-                    "     , A.learning_count " +
-                    "     , IFNULL(DATE_FORMAT(A.last_learning_datetime, '%Y-%m-%d %H:%i:%s'),'') as last_learning_datetime " +
-                    "     , IFNULL(concat('(', DATE_FORMAT(A.complete_learning_datetime, '%Y-%m-%d %H:%i:%s'), ')'),'') as complete_learning_datetime " +
-                    "     , IF(LENGTH(IFNULL(A.learning_time,'')) = 0,'', concat(mid(A.learning_time,1,2),'시', " +
-                    "              mid(A.learning_time,3,2),'분', " +
-                    "              mid(A.learning_time,5,2),'초')) as learning_time " +
-                    "     , concat('(',  " +
-                    "              mid(B.learning_playtime,1,2),'시', " +
-                    "              mid(B.learning_playtime,3,2),'분', " +
-                    "              mid(B.learning_playtime,5,2),'초', ')') as learning_playtime " +
-                    "     , learning_pdf_path " +
-                    "     , learning_video_path " +
-                    "  FROM lecture_progress  A " +
-                    "  LEFT JOIN " +
-                    "       learning_contents B " +
-                    "    ON ( A.lecture_id            = B.lecture_id " +
-                    "     AND A.learning_contents_seq = B.learning_contents_seq) " +
-                    " WHERE A.user_id    = :userId " +
-                    "   AND A.lecture_id = :lectureId " +
-                    " ORDER BY A.learning_contents_seq ";
+                "     , B.learning_contents " +
+                "     , A.progress_rate " +
+                "     , A.learning_count " +
+                "     , IFNULL(DATE_FORMAT(A.last_learning_datetime, '%Y-%m-%d %H:%i:%s'),'') as last_learning_datetime " +
+                "     , IFNULL(concat('(', DATE_FORMAT(A.complete_learning_datetime, '%Y-%m-%d %H:%i:%s'), ')'),'') as complete_learning_datetime " +
+                "     , IF(LENGTH(IFNULL(A.learning_time,'')) = 0,'', concat(mid(A.learning_time,1,2),'시', " +
+                "              mid(A.learning_time,3,2),'분', " +
+                "              mid(A.learning_time,5,2),'초')) as learning_time " +
+                "     , concat('(',  " +
+                "              mid(B.learning_playtime,1,2),'시', " +
+                "              mid(B.learning_playtime,3,2),'분', " +
+                "              mid(B.learning_playtime,5,2),'초', ')') as learning_playtime " +
+                "     , B.learning_pdf_path " +
+                "     , B.learning_video_path " +
+                "     , A.lecture_progress_seq " +
+                "  FROM lecture_progress  A " +
+                "  LEFT JOIN " +
+                "       learning_contents B " +
+                "    ON ( A.lecture_id            = B.lecture_id " +
+                "     AND A.learning_contents_seq = B.learning_contents_seq) " +
+                " WHERE A.user_id    = :userId " +
+                "   AND A.lecture_id = :lectureId " +
+                " ORDER BY A.learning_contents_seq ";
         Query query = entityManager.createNativeQuery(sqlQuery);
         query.setParameter("userId", userId);
         query.setParameter("lectureId", lectureId);
@@ -196,6 +199,7 @@ public class LectureProgressService {
             String column8Value = row[7].toString(); // learning_playtime
             String column9Value = row[8].toString(); // learning_pdf_path
             String column10Value = row[9].toString(); // learning_video_path
+            Long column11Value = Long.valueOf(row[10].toString()); // lecture_progress_seq
 
 //            private Long learning_contents_seq;
 //            private String learning_contents;
@@ -207,13 +211,23 @@ public class LectureProgressService {
 //            private String learning_playtime;
 //            private String learning_pdf_path;
 //            private String learning_video_path;
+//            private Long lecture_progress_seq; // 240701 추가
 
             LectureProgressDto lectureProgressDto = new LectureProgressDto(column1Value, column2Value, column3Value, column4Value, column5Value,
-                    column6Value, column7Value, column8Value, column9Value, column10Value);
+                    column6Value, column7Value, column8Value, column9Value, column10Value, column11Value);
             lectureProgress.add(lectureProgressDto);
 
         }
         return lectureProgress;
     }
+
+    public Lecture_progress getLectureProgressByProgressSeq(Long progressSeq) {
+        Lecture_progress lectureProgress = lectureProgressRepository.findById(progressSeq)
+                .orElseThrow(() -> new EntityNotFoundException("LectureProgressService Lecture_progress NotFound"));
+
+        return lectureProgress;
+    }
+
+
 
 }

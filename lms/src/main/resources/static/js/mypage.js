@@ -1,5 +1,5 @@
 const urlCurrent = "http://localhost:8080/user/current";
-const url = "http://localhost:8080/lecture";
+const url = "http://localhost:8080/api/lecture";
 const urlUserSet = "http://localhost:8080/user/userset";
 
 axios.get(urlCurrent)

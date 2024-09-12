@@ -1,4 +1,4 @@
-const urlLecture = "http://localhost:8080/lecture";
+const urlLecture = "http://localhost:8080/api/lecture";
 const urlCategory = "http://localhost:8080/category";
 
 let searchText = "";

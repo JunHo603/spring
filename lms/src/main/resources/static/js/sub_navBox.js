@@ -1,7 +1,7 @@
-const urlLecture = "http://localhost:8080/lecture";
+const urlLecture = "http://localhost:8080/api/lecture";
 const urlCategory = "http://localhost:8080/category";
 
-const urlCategoryCount = "http://localhost:8080/lecture/categoryCount";
+const urlCategoryCount = "http://localhost:8080/api/lecture/categoryCount";
 
 // 각 페이지별 #header와 #footer에 html파일 넣기
 function loadHtml() {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import {
   getAllQuestions,
   searchQuestions,
@@ -13,13 +13,24 @@ import {
 import { Navbar } from "../Navbar";
 import { LeftSidebar, RightSidebar } from "../Sidebar";
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 // Styled-components
 const Container = styled.div`
   background-color: #0f1015;
   color: #e0e0e0;
   min-height: 100vh;
   padding: 20px;
-  width: 70%; 
+  width: 70%;
   margin: 0 auto; /* 화면 중앙에 배치 */
   margin-top: 5%;
 `;
@@ -27,18 +38,18 @@ const Container = styled.div`
 const Header = styled.h1`
   color: #e0e0e0;
   text-align: center;
+  color: #ffce48;
 `;
 
 const Button = styled.button`
+  margin: 0 5px;
+  padding: 5px 10px;
   background-color: #00adb5;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
   cursor: pointer;
-  width: 18%; /* 나머지 18%는 버튼이 차지 */
-  margin-left: 2%; /* input과 button 간의 간격 */
-  
+  border-radius: 4px;
+
   &:hover {
     background-color: #0056b3;
   }
@@ -92,7 +103,7 @@ const Input = styled.input`
   padding: 10px;
   border-radius: 5px;
   width: 80%; /* 전체 가로의 80%를 input이 차지 */
-  
+
   &::placeholder {
     color: #b0b0b0;
   }
@@ -103,7 +114,8 @@ const Table = styled.table`
   border-collapse: collapse;
   margin-top: 20px;
 
-  th, td {
+  th,
+  td {
     padding: 10px;
     border: 1px solid #444;
     text-align: left;
@@ -112,27 +124,33 @@ const Table = styled.table`
     font-size: 14px; /* 다른 컬럼들과 글씨 크기 맞추기 */
   }
 
-  th:nth-child(1), td:nth-child(1) {
+  th:nth-child(1),
+  td:nth-child(1) {
     width: 10%; /* No */
   }
 
-  th:nth-child(2), td:nth-child(2) {
+  th:nth-child(2),
+  td:nth-child(2) {
     width: 10%; /* 카테고리 */
   }
 
-  th:nth-child(3), td:nth-child(3) {
+  th:nth-child(3),
+  td:nth-child(3) {
     width: 50%; /* 제목 */
   }
 
-  th:nth-child(4), td:nth-child(4) {
+  th:nth-child(4),
+  td:nth-child(4) {
     width: 10%; /* 작성자 */
   }
 
-  th:nth-child(5), td:nth-child(5) {
+  th:nth-child(5),
+  td:nth-child(5) {
     width: 10%; /* 등록일 */
   }
 
-  th:nth-child(6), td:nth-child(6) {
+  th:nth-child(6),
+  td:nth-child(6) {
     width: 10%; /* 답변상태 */
   }
 
@@ -154,29 +172,22 @@ const Table = styled.table`
 `;
 
 const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center; /* 가로 가운데 정렬 */
-  align-items: center; /* 세로 가운데 정렬 */
   margin-top: 20px;
-  gap: 15px; /* 버튼과 페이지 정보 사이 간격 추가 */
+  display: flex;
+  justify-content: center;
 `;
 
 const PaginationButton = styled.button`
-  background-color: #00adb5;
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: ${(props) =>
+    props.disabled
+      ? "#555"
+      : "#00adb5"}; /* 비활성화 시 어두운 회색, 활성화 시 파란색 */
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:disabled {
-    background-color: #444; /* 비활성화 시 색상 변경 */
-    cursor: not-allowed;
-  }
-
-  &:hover:not(:disabled) {
-    background-color: #0056b3;
-  }
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  border-radius: 4px;
 `;
 
 const QuestionForm = styled.form`
@@ -245,7 +256,9 @@ const QuestionDetailContainer = styled.div`
 const QuestionTitle = styled.h3`
   color: #00adb5;
   margin-bottom: 20px;
-  font-size: 1.5em;
+  font-size: 28px;
+  background-color: transparent;
+  text-align: center;
 `;
 
 const InfoText = styled.p`
@@ -254,7 +267,9 @@ const InfoText = styled.p`
   strong {
     font-weight: bold;
     color: #f7b731;
+    background-color: transparent;
   }
+  background-color: transparent;
 `;
 
 const AnswerSection = styled.div`
@@ -262,21 +277,25 @@ const AnswerSection = styled.div`
   h4 {
     color: #00adb5;
     margin-bottom: 10px;
+    background-color: transparent;
   }
   p {
     background-color: #23262d;
     padding: 10px;
     border-radius: 5px;
   }
+  background-color: transparent;
 `;
 
 const AdminSection = styled.div`
   margin-top: 20px;
-  
+  background-color: transparent;
+
   h3 {
     color: #00adb5;
     text-align: left; /* h3를 좌측 정렬 */
     width: 100%; /* 좌측 정렬을 위해 전체 너비 차지 */
+    background-color: transparent;
   }
 
   textarea {
@@ -304,7 +323,6 @@ const ActionButton = styled(Button)`
     }
   }
 `;
-
 
 export function QA() {
   const [questions, setQuestions] = useState([]);
@@ -472,217 +490,237 @@ export function QA() {
     checkLoginStatus();
   }, [category, currentPage]);
 
-    return (
+  return (
     <>
-    <Navbar />
-    <LeftSidebar />
+      <Navbar />
+      <LeftSidebar />
 
-    <Container>
-      <Header>질의응답</Header>
+      <Container>
+        <Header>질의응답</Header>
 
-      {!selectedQuestion && (
-        <>
-          <ButtonContainer>
-            <CategoryButton
-              active={category === "all"}
-              onClick={() => handleCategoryChange("all")}
-            >
-              전체
-            </CategoryButton>
-            <CategoryButton
-              active={category === "01"}
-              onClick={() => handleCategoryChange("01")}
-            >
-              수강문의
-            </CategoryButton>
-            <CategoryButton
-              active={category === "02"}
-              onClick={() => handleCategoryChange("02")}
-            >
-              회원정보
-            </CategoryButton>
-            <CategoryButton
-              active={category === "03"}
-              onClick={() => handleCategoryChange("03")}
-            >
-              시스템
-            </CategoryButton>
-            <CategoryButton
-              active={category === "99"}
-              onClick={() => handleCategoryChange("99")}
-            >
-              기타
-            </CategoryButton>
-            <WriteButton>
+        {!selectedQuestion && (
+          <>
+            <ButtonContainer>
+              <CategoryButton
+                active={category === "all"}
+                onClick={() => handleCategoryChange("all")}
+              >
+                전체
+              </CategoryButton>
+              <CategoryButton
+                active={category === "01"}
+                onClick={() => handleCategoryChange("01")}
+              >
+                수강문의
+              </CategoryButton>
+              <CategoryButton
+                active={category === "02"}
+                onClick={() => handleCategoryChange("02")}
+              >
+                회원정보
+              </CategoryButton>
+              <CategoryButton
+                active={category === "03"}
+                onClick={() => handleCategoryChange("03")}
+              >
+                시스템
+              </CategoryButton>
+              <CategoryButton
+                active={category === "99"}
+                onClick={() => handleCategoryChange("99")}
+              >
+                기타
+              </CategoryButton>
               {isLoggedIn && (
-                <Button onClick={() => setSelectedQuestion("new")}>질문 작성</Button>
+                <WriteButton onClick={() => setSelectedQuestion("new")}>
+                  질문 작성
+                </WriteButton>
               )}
-            </WriteButton>
             </ButtonContainer>
 
-          <div style={{ marginTop: "20px" }}>
-            <Input
-              type="text"
-              placeholder="검색어를 입력하세요"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-            <Button onClick={handleSearch}>검색</Button>
-          </div>
-
-          <Table>
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>카테고리</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>등록일</th>
-                <th>답변상태</th>
-              </tr>
-            </thead>
-            <tbody>
-            {questions.map((question, index) => (
-              <tr key={question.lmsQaSeq}>
-                <td>{index + 1 + (currentPage - 1) * pageSize}</td>
-                <td>
-                  {question.categoryId === "01"
-                    ? "수강문의"
-                    : question.categoryId === "02"
-                    ? "회원정보"
-                    : question.categoryId === "03"
-                    ? "시스템"
-                    : "기타"}
-                </td>
-                <td
-                  className="title"  // 제목 컬럼에 클래스 추가
-                  style={{ cursor: "pointer" }}
-                  onClick={() => loadQuestionDetails(question.lmsQaSeq)}
-                >
-                  {question.lmsQaTitle}
-                </td>
-                <td>{question.user?.userNameKor || "알 수 없음"}</td>
-                <td>{question.lmsQaWritingDate}</td>
-                <td>{question.lmsQaAnswerCheck === "Y" ? "완료" : "대기"}</td>
-              </tr>
-            ))}
-          </tbody>
-          </Table>
-          <PaginationContainer>
             <div style={{ marginTop: "20px" }}>
+              <Input
+                type="text"
+                placeholder="검색어를 입력하세요"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+              <Button onClick={handleSearch}>검색</Button>
+            </div>
+
+            <Table>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>카테고리</th>
+                  <th>제목</th>
+                  <th>작성자</th>
+                  <th>등록일</th>
+                  <th>답변상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                {questions.map((question, index) => (
+                  <tr key={question.lmsQaSeq}>
+                    <td>{index + 1 + (currentPage - 1) * pageSize}</td>
+                    <td>
+                      {question.categoryId === "01"
+                        ? "수강문의"
+                        : question.categoryId === "02"
+                        ? "회원정보"
+                        : question.categoryId === "03"
+                        ? "시스템"
+                        : "기타"}
+                    </td>
+                    <td
+                      className="title" // 제목 컬럼에 클래스 추가
+                      style={{ cursor: "pointer" }}
+                      onClick={() => loadQuestionDetails(question.lmsQaSeq)}
+                    >
+                      {question.lmsQaTitle}
+                    </td>
+                    <td>{question.user?.userNameKor || "알 수 없음"}</td>
+                    <td>{question.lmsQaWritingDate}</td>
+                    <td>
+                      {question.lmsQaAnswerCheck === "Y" ? "완료" : "대기"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <PaginationContainer>
               <PaginationButton
                 onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
+                disabled={currentPage === 1} // 첫 페이지일 때 비활성화
               >
-                이전
+                ◀
               </PaginationButton>
-              <span>
-                {currentPage} / {totalPages}
-              </span>
+
+              {Array.from({ length: totalPages }, (_, i) => (
+                <PaginationButton
+                  key={i + 1}
+                  onClick={() => handlePageChange(i + 1)} // 페이지 번호 버튼 클릭 시 해당 페이지로 이동
+                  disabled={i + 1 === currentPage} // 현재 페이지는 비활성화
+                >
+                  {i + 1}
+                </PaginationButton>
+              ))}
+
               <PaginationButton
                 onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
+                disabled={currentPage === totalPages} // 마지막 페이지일 때 비활성화
               >
-                다음
+                ▶
               </PaginationButton>
+            </PaginationContainer>
+          </>
+        )}
+
+        {selectedQuestion === "new" && (
+          <QuestionForm onSubmit={handleSubmitQuestion}>
+            <h2>새 질문 작성</h2>
+            <div>
+              <label>카테고리: </label>
+              <select
+                value={newQuestion.category}
+                onChange={(e) =>
+                  setNewQuestion({ ...newQuestion, category: e.target.value })
+                }
+              >
+                <option value="01">수강문의</option>
+                <option value="02">회원정보</option>
+                <option value="03">시스템</option>
+                <option value="99">기타</option>
+              </select>
             </div>
-          </PaginationContainer>
-          
-        </>
-      )}
-
-      {selectedQuestion === "new" && (
-        <QuestionForm onSubmit={handleSubmitQuestion}>
-          <h2>새 질문 작성</h2>
-          <div>
-            <label>카테고리: </label>
-            <select
-              value={newQuestion.category}
-              onChange={(e) =>
-                setNewQuestion({ ...newQuestion, category: e.target.value })
-              }
-            >
-              <option value="01">수강문의</option>
-              <option value="02">회원정보</option>
-              <option value="03">시스템</option>
-              <option value="99">기타</option>
-            </select>
-          </div>
-          <div>
-            <label>제목: </label>
-            <input
-              type="text"
-              value={newQuestion.title}
-              onChange={(e) =>
-                setNewQuestion({ ...newQuestion, title: e.target.value })
-              }
-              required
-              placeholder="제목을 입력하세요"  // 제목 입력 필드에 placeholder 추가
-            />
-          </div>
-          <div>
-            <label>내용: </label>
-            <textarea
-              value={newQuestion.content}
-              onChange={(e) =>
-                setNewQuestion({ ...newQuestion, content: e.target.value })
-              }
-              required
-              placeholder="내용을 입력하세요"  // 내용 입력 필드에 placeholder 추가
-            />
-          </div>
-          <button type="submit">질문 등록</button>
-          <button type="button" onClick={() => goBackToList()}>취소</button>
-        </QuestionForm>
-      )}
-
-      {selectedQuestion && selectedQuestion !== "new" && (
-        <QuestionDetailContainer>
-          <QuestionTitle>{selectedQuestion.lmsQaTitle}</QuestionTitle>
-          <InfoText>
-            <strong>작성자:</strong> {selectedQuestion.user?.userNameKor || "알 수 없음"}
-          </InfoText>
-          <InfoText>
-            <strong>작성일:</strong> {selectedQuestion.lmsQaWritingDate}
-          </InfoText>
-          <InfoText>
-            <strong>내용:</strong> {selectedQuestion.lmsQaContent}
-          </InfoText>
-          <InfoText>
-            <strong>답변 상태:</strong>{" "}
-            {selectedQuestion.lmsQaAnswerCheck === "Y" ? "완료" : "대기"}
-          </InfoText>
-
-          {selectedQuestion.lmsQaAnswerContent && (
-            <AnswerSection>
-              <h4>답변 내용</h4>
-              <p>{selectedQuestion.lmsQaAnswerContent}</p>
-            </AnswerSection>
-          )}
-
-          {isAdmin && (
-            <AdminSection>
-              <h3>답변 {selectedQuestion.lmsQaAnswerContent ? "수정" : "작성"}</h3>
-              <textarea
-                value={answerContent}
-                onChange={(e) => setAnswerContent(e.target.value)}
-                placeholder="답변 내용을 입력하세요."
+            <div>
+              <label>제목: </label>
+              <input
+                type="text"
+                value={newQuestion.title}
+                onChange={(e) =>
+                  setNewQuestion({ ...newQuestion, title: e.target.value })
+                }
+                required
+                placeholder="제목을 입력하세요" // 제목 입력 필드에 placeholder 추가
               />
-              <ActionButton onClick={handleSubmitAnswer}>
-                {selectedQuestion.lmsQaAnswerContent ? "답변 수정" : "답변 등록"}
+            </div>
+            <div>
+              <label>내용: </label>
+              <textarea
+                value={newQuestion.content}
+                onChange={(e) =>
+                  setNewQuestion({ ...newQuestion, content: e.target.value })
+                }
+                required
+                placeholder="내용을 입력하세요" // 내용 입력 필드에 placeholder 추가
+              />
+            </div>
+            <button type="submit">질문 등록</button>
+            <button type="button" onClick={() => goBackToList()}>
+              취소
+            </button>
+          </QuestionForm>
+        )}
+
+        {selectedQuestion && selectedQuestion !== "new" && (
+          <QuestionDetailContainer>
+            <QuestionTitle>{selectedQuestion.lmsQaTitle}</QuestionTitle>
+            <InfoText>
+              <strong>작성자:</strong>{" "}
+              {selectedQuestion.user?.userNameKor || "알 수 없음"}
+            </InfoText>
+            <InfoText>
+              <strong>작성일:</strong> {selectedQuestion.lmsQaWritingDate}
+            </InfoText>
+            <InfoText>
+              <strong>내용:</strong> {selectedQuestion.lmsQaContent}
+            </InfoText>
+            <InfoText>
+              <strong>답변 상태:</strong>{" "}
+              {selectedQuestion.lmsQaAnswerCheck === "Y" ? "완료" : "대기"}
+            </InfoText>
+
+            {selectedQuestion.lmsQaAnswerContent && (
+              <AnswerSection>
+                <h4>답변 내용</h4>
+                <p>{selectedQuestion.lmsQaAnswerContent}</p>
+              </AnswerSection>
+            )}
+
+            {isAdmin && (
+              <AdminSection>
+                <h3>
+                  답변 {selectedQuestion.lmsQaAnswerContent ? "수정" : "작성"}
+                </h3>
+                <textarea
+                  value={answerContent}
+                  onChange={(e) => setAnswerContent(e.target.value)}
+                  placeholder="답변 내용을 입력하세요."
+                  style={{ height: "200px" }}
+                />
+                <ActionButton onClick={handleSubmitAnswer}>
+                  {selectedQuestion.lmsQaAnswerContent
+                    ? "답변 수정"
+                    : "답변 등록"}
+                </ActionButton>
+              </AdminSection>
+            )}
+
+            <ActionButton onClick={goBackToList}>
+              목록으로 돌아가기
+            </ActionButton>
+
+            {isAdmin && (
+              <ActionButton onClick={handleDeleteQuestion}>
+                게시글 삭제
               </ActionButton>
-            </AdminSection>
-          )}
-          
-          <ActionButton onClick={goBackToList}>목록으로 돌아가기</ActionButton>
-          
-          {isAdmin && (
-            <ActionButton onClick={handleDeleteQuestion}>게시글 삭제</ActionButton>
-          )}
-          
-        </QuestionDetailContainer>
-      )}
-    </Container>
+            )}
+          </QuestionDetailContainer>
+        )}
+      </Container>
     </>
   );
 }
+
+export default QA;

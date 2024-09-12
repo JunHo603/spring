@@ -1,4 +1,4 @@
-const url = "http://localhost:8080/lecture";
+const url = "http://localhost:8080/api/lecture";
 
 // 각 페이지별 #header와 #footer에 html파일 넣기
 function loadHtml() {
@@ -103,7 +103,7 @@ document.querySelector("#all").addEventListener("click", (e) => {
   document.querySelector("#new").classList.remove("choise");
 
   const all = e.target.textContent.trim();
-  const keywordURL = "http://localhost:8080/lecture/category/" + all;
+  const keywordURL = "http://localhost:8080/api/lecture/category/" + all;
 
   axios
     .get(keywordURL)
@@ -124,7 +124,7 @@ document.querySelector("#best").addEventListener("click", (e) => {
   document.querySelector("#new").classList.remove("choise");
 
   const best = e.target.textContent.trim();
-  const keywordURL = "http://localhost:8080/lecture/category/" + best;
+  const keywordURL = "http://localhost:8080/api/lecture/category/" + best;
 
   axios
     .get(keywordURL)
@@ -145,7 +145,7 @@ document.querySelector("#free").addEventListener("click", (e) => {
   document.querySelector("#new").classList.remove("choise");
 
   const free = e.target.textContent.trim();
-  const keywordURL = "http://localhost:8080/lecture/category/" + free;
+  const keywordURL = "http://localhost:8080/api/lecture/category/" + free;
 
   axios
     .get(keywordURL)
@@ -166,7 +166,7 @@ document.querySelector("#charged").addEventListener("click", (e) => {
   document.querySelector("#new").classList.remove("choise");
 
   const charged = e.target.textContent.trim();
-  const keywordURL = "http://localhost:8080/lecture/category/" + charged;
+  const keywordURL = "http://localhost:8080/api/lecture/category/" + charged;
 
   axios
     .get(keywordURL)
@@ -186,7 +186,7 @@ document.querySelector("#new").addEventListener("click", (e) => {
   document.querySelector("#new").classList.add("choise");
 
   const newLecture = e.target.textContent.trim();
-  const keywordURL = "http://localhost:8080/lecture/category/" + newLecture;
+  const keywordURL = "http://localhost:8080/api/lecture/category/" + newLecture;
 
   axios
     .get(keywordURL)

@@ -61,4 +61,5 @@ public class Lms_noticesController {
     public UserDetails getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
         return userDetails;
     }
+
 }

@@ -70,10 +70,6 @@ const PdfLink = styled.a`
     border-radius: 5px;
     text-decoration: none;
     cursor: pointer;
-
-    // font-size 추가
-    font-size: 12px;
-
     &:hover {
         background-color: #218838;
     }
@@ -94,17 +90,18 @@ const Modal = styled.div`
 
 const ModalContent = styled.div`
     background-color: #fff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     width: 70%;
     max-width: 800px;
     position: relative;
+    background-color: rgba(15, 16, 21, 0.5);
 `;
 
 const CloseButton = styled.button`
     position: absolute;
-    top: 10px;
-    right: 20px;
+    top: 0px;
+    right: 0px;
     font-size: 30px;
     cursor: pointer;
     background: none;
@@ -169,6 +166,8 @@ const TableHeader = styled.th`
 
 const TableData = styled.td`
     padding: 12px;
+    // font-size 추가
+    font-size: 12px;
     color: #fff;
 `;
 

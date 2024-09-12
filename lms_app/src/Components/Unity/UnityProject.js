@@ -13,9 +13,6 @@ import { EnrollmentManagement } from "../LMS/Admin/EnrollmentManagement";
 // import { LectureList } from "../LMS/Lecture/LectureList";
 import { LectureListModal } from "../LMS/Lecture/LectureListModal";
 
-// Blank Window 로 띄울 예정
-// import { LectureDetail } from "../LMS/Lecture/LectureDetail";
-
 // Cart
 import { CartModal } from "../LMS/Cart/CartModal";
 
@@ -77,6 +74,24 @@ const Container = styled.div`
     animation: ${fadeIn} 0.6s ease-out;
 `;
 
+// 게임을 로드할 화면을 만듬
+// const Container = styled.div`
+//   /* top: 2px;
+//     left: 86px;
+//     width: 1726px;
+//     height: 690px; */
+// 
+//   position: absolute;
+//   top: -20px;
+//   left: 120px;
+//   width: 1671px;
+//   height: 695px;
+// 
+//   margin: 80px auto;
+//   border: 1px solid gray;
+//   animation: ${fadeIn} 0.6s ease-out;
+// `;
+
 const customStyles = {
     content: {
         top: "50%",
@@ -88,6 +103,7 @@ const customStyles = {
         height: "865px", // 모달의 높이를 설정합니다. (기존 height)
         padding: "20px",
         borderRadius: "10px",
+        backgroundColor: "rgba(15, 16, 21, 0.5)", // 배경색 설정
     },
     overlay: {
         backgroundColor: "rgba(0, 0, 0, 0.5)", // 오버레이의 배경색을 설정합니다.
@@ -110,8 +126,7 @@ export function UnityProject() {
 
     const [modalReturn, setModalReturn] = useState(null);
 
-    // Unity 게임의 로드 상태를 추적할 상태 변수 추가
-    const [isUnityLoaded, setIsUnityLoaded] = useState(false);
+    const [playerName, setPlayerName] = useState("");
 
     const closeModal = (qaUrl) => {
         if (!qaUrl) {
@@ -123,12 +138,13 @@ export function UnityProject() {
     };
 
     // React 에서 Unity 로 sendMessage 를 통해 전달하기
-    // https://react-unity-webgl.dev/docs/advanced-examples/loading-overlay
     const {
         unityProvider,
         sendMessage,
         addEventListener,
         removeEventListener,
+        isLoaded,
+        loadingProgression,
     } = useUnityContext({
         loaderUrl: "build/Build.loader.js",
         dataUrl: "build/Build.data",
@@ -136,24 +152,33 @@ export function UnityProject() {
         codeUrl: "build/Build.wasm",
     });
 
-    function handleUnityOnLoaded() {
-        const urlCurrent = "http://localhost:8080/user/current"; // 세션 조회
+    useEffect(() => {
+        if (isLoaded) {
+            // 게임이 로드되면 이벤트 리스너를 추가합니다.
+            addEventListener("GameReady", handleGameReady);
+        }
 
-        // window.alert("urlCurrent: " + urlCurrent);
+        // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거합니다.
+        return () => {
+            removeEventListener("GameReady", handleGameReady);
+        };
+    }, [isLoaded, addEventListener, removeEventListener]);
+
+    function handleGameReady() {
+        console.log("Game is ready to receive messages");
+
+        const urlCurrent = "http://localhost:8080/user/current"; // 세션 조회
 
         axios
             .get(urlCurrent, {
                 withCredentials: true,
             })
             .then((response) => {
-                const userName = response.data.userName;
+                const playerName = response.data.userName;
 
-                // window.alert("[userName]: " + userName);
-
-                // Unity로 데이터 전송
-                // window.alert("SendMessage Start!!!");
-
-                sendMessage("Player", "ReceiveUserName", userName);
+                if (playerName) {
+                    sendMessage("Canvas", "SetPlayerName", playerName);
+                }
             })
             .catch((error) => {
                 console.log("에러 발생: ", error);
@@ -168,14 +193,14 @@ export function UnityProject() {
     }
 
     // // Unity에서 호출될 JavaScript 함수
-    // function handleOpenReactWindow(romeName) {
+    // function handleOpenReactWindow(roomName) {
     //     // 예를 들어, 새로운 브라우저 창을 열도록 구현할 수 있습니다.
     //     // React 애플리케이션의 URL로 새로운 탭을 열기
     //     window.open("http://localhost:3000/community/notices", "_blank");
     // }
 
     // Unity에서 호출될 JavaScript 함수
-    function handleOpenReactWindow(romeName) {
+    function handleOpenReactWindow(roomName) {
         // 예를 들어, 새로운 브라우저 창을 열도록 구현할 수 있습니다.
         // React 애플리케이션의 URL로 새로운 탭을 열기
 
@@ -186,31 +211,31 @@ export function UnityProject() {
         // Community (공지사항, 이벤트, 질의응답)
         // Lecture & Cart (강의, 장바구니, 로그아웃)
 
-        if (romeName == "회원정보") {
+        if (roomName == "회원정보") {
             setModalReturn(() => MyPageUser); // React component function
-        } else if (romeName == "나의학습") {
+        } else if (roomName == "나의학습") {
             setModalReturn(() => MyPageLectureModal); // => 새로운 브라우저 창 열기
-        } else if (romeName == "회원탈퇴") {
+        } else if (roomName == "회원탈퇴") {
             setModalReturn(() => MyPageUserDelete); // React component function
-        } else if (romeName == "공지사항") {
+        } else if (roomName == "공지사항") {
             setModalReturn(() => NoticesModal); // React component function
-        } else if (romeName == "이벤트") {
+        } else if (roomName == "이벤트") {
             setModalReturn(() => EventsModal); // React component function
-        } else if (romeName == "질의응답") {
+        } else if (roomName == "질의응답") {
             setModalReturn(() => QAModal); // React component function
-        } else if (romeName == "회원관리") {
+        } else if (roomName == "회원관리") {
             setModalReturn(() => UserManagement); // React component function
-        } else if (romeName == "강의관리") {
+        } else if (roomName == "강의관리") {
             setModalReturn(() => LectureManagement); // React component function
-        } else if (romeName == "수강관리") {
+        } else if (roomName == "수강관리") {
             setModalReturn(() => EnrollmentManagement); // React component function
-        } else if (romeName == "강의") {
+        } else if (roomName == "강의") {
             setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
-        } else if (romeName == "장바구니") {
+        } else if (roomName == "장바구니") {
             setModalReturn(() => CartModal); // React component function
-        } else if (romeName == "로그아웃") {
+        } else if (roomName == "로그아웃") {
             setModalReturn(() => {
-                window.location.href = "http://localhost:3000/Login";
+                window.location.href = "/login";
             }); // React component function
         }
     }
@@ -226,13 +251,6 @@ export function UnityProject() {
         addEventListener("OpenReactWindow", handleOpenReactWindow);
         return () => {
             removeEventListener("OpenReactWindow", handleOpenReactWindow);
-        };
-    }, []);
-
-    useEffect(() => {
-        addEventListener("UnityOnLoaded", handleUnityOnLoaded);
-        return () => {
-            removeEventListener("UnityOnLoaded", handleUnityOnLoaded);
         };
     }, []);
 
@@ -303,13 +321,15 @@ export function UnityProject() {
             <button onClick={() => sendMessage("Player", "Attack")}>
                 Attack
             </button> */}
-                    <button
-                        onClick={() =>
-                            sendMessage("Player", "ReceiveUserName", "테스트01")
-                        }
-                    >
-                        플레이어 이름 전달
-                    </button>
+
+                    {/*<button
+                onClick={() =>
+                    sendMessage("Canvas", "SetPlayerName", "테스트01")
+                }
+            >
+                플레이어 이름 전달
+            </button> */}
+
                     {/* <button
                 onClick={() =>
                     ReactToUnityJSON(
@@ -322,28 +342,13 @@ export function UnityProject() {
 
                     <Container>
                         {/* <div className={"btn-wrapper"}>
-                    <button
-                        className={"modal-open-btn"}
-                        onClick={() => setModalOpen(true)}
-                    >
-                        모달 열기
-                    </button>
-                </div> */}
-
-                        {/* {isLoaded === false && (
-                            <div className="loading-overlay">
-                                <p>
-                                    Loading... (
-                                    {Math.round(loadingProgression * 100)}%)
-                                </p>
-                            </div>
-                        )}
-                        {playingGame && (
-                            <Unity
-                                unityProvider={unityProvider}
-                                style={{ width: "100%", height: "100%" }}
-                            />
-                        )} */}
+                            <button
+                                className={"modal-open-btn"}
+                                onClick={() => setModalOpen(true)}
+                            >
+                                모달 열기
+                            </button>
+                        </div> */}
 
                         {playingGame ? (
                             <Unity
@@ -411,18 +416,18 @@ export function UnityProject() {
                                     {/* {modalReturn && React.createElement(modalReturn)} */}
                                     <br></br>
                                     {/* <button
-                                // [모달 닫기] 버튼 클릭시 Close
-                                onClick={() => {
-                                    setModalOpen(false);
-                                    sendMessage(
-                                        "PortalManager",
-                                        "ContinueGame"
-                                    );
-                                    RequestFocus();
-                                }}
-                            >
-                                모달 닫기
-                            </button> */}
+                                        // [모달 닫기] 버튼 클릭시 Close
+                                        onClick={() => {
+                                            setModalOpen(false);
+                                            sendMessage(
+                                                "PortalManager",
+                                                "ContinueGame"
+                                            );
+                                            RequestFocus();
+                                        }}
+                                    >
+                                        모달 닫기
+                                    </button> */}
                                 </Modal>
                                 {/* </div> */}
                             </div>
