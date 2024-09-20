@@ -4,10 +4,10 @@ const url = "http://localhost:8080/api/lecture/" + lectureId;
 const contentUrl = "http://localhost:8080/learning/contents/" + lectureId;
 const teacherUrl = "http://localhost:8080/teacher/" + lectureId;
 const reviewUrl = "http://localhost:8080/learning/review/" + lectureId;
-const coruseUrl = "http://localhost:8080/course/saveCourseRegistration";
-const studyUrl = "http://localhost:8080/course/registration";
+const coruseUrl = "http://localhost:8080/api/course/saveCourseRegistration";
+const studyUrl = "http://localhost:8080/api/course/registration";
 const sessionUrl = "http://localhost:8080/user/current";
-
+console.log(lectureId)
 // 각 페이지별 #header와 #footer에 html파일 넣기
 function loadHtml() {
   axios

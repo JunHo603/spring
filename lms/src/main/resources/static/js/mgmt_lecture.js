@@ -22,33 +22,33 @@ function loadHtml() {
 window.onload = loadHtml;
 
 const COUNT_PER_PAGE = 10; // 페이지 당 보여줄 게시물 수
-const numberButtonWrapper = document.querySelector('.number-button-wrapper'); // 페이지네이션 버튼 wrapper
-const userTableBody = document.querySelector('.user_list'); // 게시물을 담을 table list
-const prevButton = document.querySelector('.prev-button'); // 이전 페이지 버튼
-const nextButton = document.querySelector('.next-button'); // 이후 페이지 버튼
+const numberButtonWrapper = document.querySelector(".number-button-wrapper"); // 페이지네이션 버튼 wrapper
+const userTableBody = document.querySelector(".user_list"); // 게시물을 담을 table list
+const prevButton = document.querySelector(".prev-button"); // 이전 페이지 버튼
+const nextButton = document.querySelector(".next-button"); // 이후 페이지 버튼
 let pageNumberButtons; // 페이지 버튼들
 
 let currentPage = 1; // 초기 페이지 번호
 
-let url = "http://localhost:8080/course/queryCECJPQL/";
+let url = "http://localhost:8080/api/course/queryCECJPQL/";
 
 let response_data1 = []; // 배열 선언
 
 // 필요한 페이지 번호 수에 맞게 페이지 버튼 구성하기
 const setPageButtons = (getTotalPageCount) => {
-  numberButtonWrapper.innerHTML = '';
+  numberButtonWrapper.innerHTML = "";
 
   for (let i = 1; i <= getTotalPageCount; i++) {
     numberButtonWrapper.innerHTML += `<button class="number-button"> ${i} </button>`;
   }
 
   // 첫 번째 버튼을 선택 상태로 표시
-  numberButtonWrapper.firstChild.classList.add('selected');
-  pageNumberButtons = document.querySelectorAll('.number-button');
+  numberButtonWrapper.firstChild.classList.add("selected");
+  pageNumberButtons = document.querySelectorAll(".number-button");
 
   // 페이지 번호 버튼 클릭 리스너 추가
   pageNumberButtons.forEach((numberButton) => {
-    numberButton.addEventListener('click', (e) => {
+    numberButton.addEventListener("click", (e) => {
       currentPage = +e.target.innerHTML;
       console.log("pageNumberButtons Click Event:" + currentPage);
       setPageOf(currentPage);
@@ -59,7 +59,6 @@ const setPageButtons = (getTotalPageCount) => {
 
 // 데이터 배열을 변환하고 페이지 버튼을 설정하는 함수
 function convertArray(data, pageNumber) {
-
   currentPage = pageNumber;
 
   response_data1 = data;
@@ -77,9 +76,8 @@ function convertArray(data, pageNumber) {
 axios
   .get(url)
   .then((response) => {
-
     const searchUrlArray = [];
-  
+
     if (Array.isArray(response.data)) {
       console.log("SearchUrl 응답 Response : isArray");
       response.data.forEach((userData) => {
@@ -101,7 +99,7 @@ axios
 // 페이지에 해당하는 게시물을 테이블에 넣어주기
 // @param {number} pageNumber - 이동할 페이지 번호
 const setPageOf = (pageNumber) => {
-  userTableBody.innerHTML = '';
+  userTableBody.innerHTML = "";
 
   console.log("setPageOf Start!!!");
 
@@ -112,14 +110,14 @@ const setPageOf = (pageNumber) => {
   console.log("endIndex: " + endIndex);
 
   for (let i = startIndex; i < endIndex; i++) {
-    const tr = document.createElement('tr');
-    const td1 = document.createElement('td');
-    const td2 = document.createElement('td');
-    const td3 = document.createElement('td');
-    const td4 = document.createElement('td');
-    const td5 = document.createElement('td');
-    const td6 = document.createElement('td');
-    
+    const tr = document.createElement("tr");
+    const td1 = document.createElement("td");
+    const td2 = document.createElement("td");
+    const td3 = document.createElement("td");
+    const td4 = document.createElement("td");
+    const td5 = document.createElement("td");
+    const td6 = document.createElement("td");
+
     td1.textContent = response_data1[i].lectureId;
     td2.textContent = response_data1[i].lectureName;
     td3.textContent = response_data1[i].lectureStartDate;
@@ -133,7 +131,7 @@ const setPageOf = (pageNumber) => {
     tr.appendChild(td4);
     tr.appendChild(td5);
     tr.appendChild(td6);
-        userTableBody.appendChild(tr);
+    userTableBody.appendChild(tr);
   }
 
   console.log("setPageOf End!!!");
@@ -143,21 +141,21 @@ const setPageOf = (pageNumber) => {
  * 페이지 이동에 따른 CSS 클래스 적용
  */
 const moveSelectedPageHighlight = () => {
-  const pageNumberButtons = document.querySelectorAll('.number-button'); // 페이지 버튼들
+  const pageNumberButtons = document.querySelectorAll(".number-button"); // 페이지 버튼들
 
   pageNumberButtons.forEach((numberButton) => {
-    if (numberButton.classList.contains('selected')) {
-      numberButton.classList.remove('selected');
+    if (numberButton.classList.contains("selected")) {
+      numberButton.classList.remove("selected");
     }
   });
 
-  pageNumberButtons[currentPage - 1].classList.add('selected');
+  pageNumberButtons[currentPage - 1].classList.add("selected");
 };
 
 /**
  * 이전 버튼 클릭 리스너
  */
-prevButton.addEventListener('click', () => {
+prevButton.addEventListener("click", () => {
   if (currentPage > 1) {
     currentPage -= 1;
     console.log("prevButton Click Event:" + currentPage);
@@ -169,7 +167,7 @@ prevButton.addEventListener('click', () => {
 /**
  * 이후 버튼 클릭 리스너
  */
-nextButton.addEventListener('click', () => {
+nextButton.addEventListener("click", () => {
   const totalPageCount = Math.ceil(response_data1.length / COUNT_PER_PAGE);
   if (currentPage < totalPageCount) {
     currentPage += 1;
@@ -180,30 +178,29 @@ nextButton.addEventListener('click', () => {
 });
 
 //const nextButton = document.querySelector('.next-button'); // 이후 페이지 버튼
-const searchButton = document.querySelector('.search.button'); // 검색 버튼
+const searchButton = document.querySelector(".search.button"); // 검색 버튼
 
 /**
  * 검색 버튼 클릭 리스너
  */
-searchButton.addEventListener('click', () => {
-
+searchButton.addEventListener("click", () => {
   console.log("searchButton Click!!!");
 
-  const searchText = document.querySelector('.search.input');
+  const searchText = document.querySelector(".search.input");
   const lectureName = searchText.value;
 
   console.log("lectureName: " + lectureName);
 
-    if (lectureName.length > 0) {
-      url = "http://localhost:8080/course/queryCECJPQL/" + lectureName;
-    } else {
-      url = "http://localhost:8080/course/queryCECJPQL/";
-    }
+  if (lectureName.length > 0) {
+    url = "http://localhost:8080/api/course/queryCECJPQL/" + lectureName;
+  } else {
+    url = "http://localhost:8080/api/course/queryCECJPQL/";
+  }
 
-console.log("url: " + url);
+  console.log("url: " + url);
 
-    // 검색 조회 추가 예정
-    axios
+  // 검색 조회 추가 예정
+  axios
     .get(url)
     .then((response) => {
       console.log("nameSearchUrl 응답 Response : ", response);
@@ -211,7 +208,7 @@ console.log("url: " + url);
       currentPage = 1; // 초기 페이지 번호
 
       const nameSearchUrlArray = [];
-  
+
       if (Array.isArray(response.data)) {
         console.log("nameSearchUrl 응답 Response : isArray");
         response.data.forEach((userData) => {
@@ -229,7 +226,4 @@ console.log("url: " + url);
     .catch((error) => {
       console.log("에러", error);
     });
-
- 
-
 });

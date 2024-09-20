@@ -1,13 +1,16 @@
 const urlCurrent = "http://localhost:8080/user/current";
-const urlRegi = "http://localhost:8080/course/registration";
+const urlRegi = "http://localhost:8080/api/course/registration";
 const urlprogress = "http://localhost:8080/progress/getAllLectureProgress";
 
-
 function urlCurrentSet() {
-  axios.get(urlCurrent)
+  axios
+    .get(urlCurrent)
     .then((response) => {
       console.log("응답 Response: ", response);
-      userDataSet("http://localhost:8080/course/lectureStatusCount/id/" + response.data.userId);
+      userDataSet(
+        "http://localhost:8080/api/course/lectureStatusCount/id/" +
+          response.data.userId
+      );
     })
     .catch((error) => {
       console.log("에러 발생: ", error);
@@ -35,20 +38,23 @@ function loadHtml() {
 }
 window.onload = loadHtml;
 
-axios.get(urlprogress, { withCredentials: true })
+axios
+  .get(urlprogress, { withCredentials: true })
   .then((response) => {
     const data = response.data;
     data.forEach((data) => {
       console.log("응답 Response: ", data);
-    })
+    });
   })
   .catch((error) => {
     console.log("에러 발생: ", error);
   });
 
-function userDataSet(lecData) { // ----------------------------------------요악정보----------------------------------------
+function userDataSet(lecData) {
+  // ----------------------------------------요악정보----------------------------------------
 
-  axios.get(lecData, { withCredentials: true })
+  axios
+    .get(lecData, { withCredentials: true })
     .then((response) => {
       console.log("응답 Response: ", response);
       const data = response.data;
@@ -76,44 +82,51 @@ function userDataSet(lecData) { // ----------------------------------------요�
       const graph7 = document.querySelector(".graphNum7");
       graph7.textContent = classValue7;
 
-      document.getElementById('classGraphBar1').style.height = (classValue1 * 30) + "px";
-      document.getElementById('classGraphBar2').style.height = (classValue2 * 30) + "px";
-      document.getElementById('classGraphBar3').style.height = (classValue3 * 30) + "px";
-      document.getElementById('classGraphBar4').style.height = (classValue4 * 30) + "px";
-      document.getElementById('classGraphBar5').style.height = (classValue5 * 30) + "px";
-      document.getElementById('classGraphBar6').style.height = (classValue6 * 30) + "px";
-      document.getElementById('classGraphBar7').style.height = (classValue7 * 30) + "px";
-
+      document.getElementById("classGraphBar1").style.height =
+        classValue1 * 30 + "px";
+      document.getElementById("classGraphBar2").style.height =
+        classValue2 * 30 + "px";
+      document.getElementById("classGraphBar3").style.height =
+        classValue3 * 30 + "px";
+      document.getElementById("classGraphBar4").style.height =
+        classValue4 * 30 + "px";
+      document.getElementById("classGraphBar5").style.height =
+        classValue5 * 30 + "px";
+      document.getElementById("classGraphBar6").style.height =
+        classValue6 * 30 + "px";
+      document.getElementById("classGraphBar7").style.height =
+        classValue7 * 30 + "px";
     })
     .catch((error) => {
       console.log("에러 발생: ", error);
     });
 }
 
-axios.get(urlRegi, { withCredentials: true })
+axios
+  .get(urlRegi, { withCredentials: true })
   .then((response) => {
     console.log("응답 Response: ", response);
     const data = response.data;
     displayLecture(data);
     displayCancelLecture(data);
     displayCompleteLecture(data);
-
   })
   .catch((error) => {
     console.log("에러 발생: ", error);
   });
 
-
-function displayLecture(lectureList) { // ----------------------------------------학습중----------------------------------------
+function displayLecture(lectureList) {
+  // ----------------------------------------학습중----------------------------------------
   console.log("응답 lectureList: ", lectureList);
   const tbody = document.querySelector(".studying-body");
   lectureList.forEach((data) => {
-
-    axios.get(urlCurrent)
+    axios
+      .get(urlCurrent)
       .then((response) => {
-
-        if (response.data.userId === data.user.userId && (data.lectureStatus == "I")) {
-
+        if (
+          response.data.userId === data.user.userId &&
+          data.lectureStatus == "I"
+        ) {
           // 태그 요소 생성
           const tr = document.createElement("tr");
           const imgtd = document.createElement("td");
@@ -136,11 +149,22 @@ function displayLecture(lectureList) { // --------------------------------------
           // 태그속성추가
           img.src = data.lecture.imagePath;
           lectureName.textContent = data.lecture.lectureName;
-          lectureDate.textContent = data.lecture.educationPeriodStartDate + " ~ " + data.lecture.educationPeriodEndDate;
-          lectureProgress.textContent = (data.progressLectureContentsSeq / data.finalLectureContentsSeq * 100).toFixed(1) + "%";
-          progressBar2.style.width = (data.progressLectureContentsSeq / data.finalLectureContentsSeq * 100).toFixed(0) + "%";
+          lectureDate.textContent =
+            data.lecture.educationPeriodStartDate +
+            " ~ " +
+            data.lecture.educationPeriodEndDate;
+          lectureProgress.textContent =
+            (
+              (data.progressLectureContentsSeq / data.finalLectureContentsSeq) *
+              100
+            ).toFixed(1) + "%";
+          progressBar2.style.width =
+            (
+              (data.progressLectureContentsSeq / data.finalLectureContentsSeq) *
+              100
+            ).toFixed(0) + "%";
 
-          classRoomBtn.textContent = "강의실"
+          classRoomBtn.textContent = "강의실";
           // appendChild 부모자식 위치 설정
           classRoom.appendChild(classRoomBtn);
           progressBar.appendChild(progressBar2);
@@ -154,7 +178,7 @@ function displayLecture(lectureList) { // --------------------------------------
           tr.appendChild(classRoom);
           tbody.appendChild(tr);
 
-					// 나의학습[학습중]에서 강의실 홈으로 이동
+          // 나의학습[학습중]에서 강의실 홈으로 이동
           classRoomBtn.addEventListener("click", () => {
             const courseUserId = data.user.userId;
             const courseLectureId = data.lecture.lectureId;
@@ -165,40 +189,53 @@ function displayLecture(lectureList) { // --------------------------------------
               courseLectureId;
           });
 
-          document.querySelector("#lecturemenu2").addEventListener("click", () => {
-            progressBar2.animate(
-              [
-                { width: "0%" },
-                { width: (data.progressLectureContentsSeq / data.finalLectureContentsSeq * 100).toFixed(0) + "%" }
-              ],
-              {
-                duration: 500,
-                delay: 0,
-                easing: 'ease-in-out',
-                fill: 'forwards'
-              }
-            );
-          });
+          document
+            .querySelector("#lecturemenu2")
+            .addEventListener("click", () => {
+              progressBar2.animate(
+                [
+                  { width: "0%" },
+                  {
+                    width:
+                      (
+                        (data.progressLectureContentsSeq /
+                          data.finalLectureContentsSeq) *
+                        100
+                      ).toFixed(0) + "%",
+                  },
+                ],
+                {
+                  duration: 500,
+                  delay: 0,
+                  easing: "ease-in-out",
+                  fill: "forwards",
+                }
+              );
+            });
         }
       })
       .catch((error) => {
         console.log("에러 발생: ", error);
       });
-  })
+  });
 }
 
-function displayCancelLecture(lectureList) { // ----------------------------------------수강취소----------------------------------------
+function displayCancelLecture(lectureList) {
+  // ----------------------------------------수강취소----------------------------------------
   console.log("응답 lectureList: ", lectureList);
   const tbody = document.querySelector(".cancel-body");
-  const Cyears = document.querySelector("#userCancelLecSearchYears")
+  const Cyears = document.querySelector("#userCancelLecSearchYears");
   lectureList.forEach((data, index) => {
-
-    axios.get(urlCurrent)
+    axios
+      .get(urlCurrent)
       .then((response) => {
         // console.log(index);
 
-        if (response.data.userId === data.user.userId && (data.lectureStatus == "I") && data.lectureCompletedCheck == "N") {
-
+        if (
+          response.data.userId === data.user.userId &&
+          data.lectureStatus == "I" &&
+          data.lectureCompletedCheck == "N"
+        ) {
           // 태그 요소 생성
           const tr = document.createElement("tr");
           const imgtd = document.createElement("td");
@@ -218,7 +255,10 @@ function displayCancelLecture(lectureList) { // --------------------------------
           // 태그속성추가
           img.src = data.lecture.imagePath;
           lectureName.textContent = data.lecture.lectureName;
-          lectureDate.textContent = data.lecture.educationPeriodStartDate + " ~ " + data.lecture.educationPeriodEndDate;
+          lectureDate.textContent =
+            data.lecture.educationPeriodStartDate +
+            " ~ " +
+            data.lecture.educationPeriodEndDate;
           startDate.textContent = data.courseRegistrationDate;
           lectureCancel.textContent = "수강승인";
           lectureCancelBtn.textContent = "수강취소";
@@ -233,38 +273,44 @@ function displayCancelLecture(lectureList) { // --------------------------------
           tr.appendChild(lectureCancel);
           tbody.appendChild(tr);
 
-          document.getElementById(`lectureCancelBtn-${index}`).onclick = function () {
-            if (confirm("해당 강좌를 삭제하시겠습니까?")) {
-              axios.delete(`/course/delCourseRegistration/${data.user.userId}/${data.lecture.lectureId}`, { withCredentials: true })
-                .then((response) => {
-                  console.log("데이터:", response.data);
-                    tr.innerHTML = ""
+          document.getElementById(`lectureCancelBtn-${index}`).onclick =
+            function () {
+              if (confirm("해당 강좌를 삭제하시겠습니까?")) {
+                axios
+                  .delete(
+                    `/course/delCourseRegistration/${data.user.userId}/${data.lecture.lectureId}`,
+                    { withCredentials: true }
+                  )
+                  .then((response) => {
+                    console.log("데이터:", response.data);
+                    tr.innerHTML = "";
                     alert("삭제되었습니다.");
-                })
-                .catch((error) => {
-                  console.log("에러 발생: ", error);
-                });
-            }
-          }
+                  })
+                  .catch((error) => {
+                    console.log("에러 발생: ", error);
+                  });
+              }
+            };
         }
       })
       .catch((error) => {
         console.log("에러 발생: ", error);
       });
-  })
-
+  });
 }
 
-function displayCompleteLecture(lectureList) { // ----------------------------------------수강종료----------------------------------------
+function displayCompleteLecture(lectureList) {
+  // ----------------------------------------수강종료----------------------------------------
   console.log("응답 lectureList: ", lectureList);
   const tbody = document.querySelector(".complete-body");
   lectureList.forEach((data) => {
-
-    axios.get(urlCurrent)
+    axios
+      .get(urlCurrent)
       .then((response) => {
-
-        if (response.data.userId === data.user.userId && data.lectureCompletedCheck == "Y") {
-
+        if (
+          response.data.userId === data.user.userId &&
+          data.lectureCompletedCheck == "Y"
+        ) {
           // 태그 요소 생성
           const tr = document.createElement("tr");
           const imgtd = document.createElement("td");
@@ -283,10 +329,17 @@ function displayCompleteLecture(lectureList) { // ------------------------------
           // 태그속성추가
           img.src = data.lecture.imagePath;
           lectureName.textContent = data.lecture.lectureName;
-          lectureDate.textContent = data.lecture.educationPeriodStartDate + " ~ " + data.lecture.educationPeriodEndDate;
-          isLectureEnd.textContent = (data.lectureStatus == "C") ? "수료" :
-            (data.lectureStatus == "I") ? "미수료" : console.error("lectureStatus error:", error);
-            reviewBtn.textContent = "강의리뷰";
+          lectureDate.textContent =
+            data.lecture.educationPeriodStartDate +
+            " ~ " +
+            data.lecture.educationPeriodEndDate;
+          isLectureEnd.textContent =
+            data.lectureStatus == "C"
+              ? "수료"
+              : data.lectureStatus == "I"
+              ? "미수료"
+              : console.error("lectureStatus error:", error);
+          reviewBtn.textContent = "강의리뷰";
 
           // appendChild 부모자식 위치 설정
           imgtd.appendChild(img);
@@ -298,23 +351,28 @@ function displayCompleteLecture(lectureList) { // ------------------------------
           tr.appendChild(isLectureEnd);
           tr.appendChild(classRoom);
           tbody.appendChild(tr);
-
         }
       })
       .catch((error) => {
         console.log("에러 발생: ", error);
       });
-  })
-
+  });
 }
 
 document.querySelector("#lecturemenu1").addEventListener("click", () => {
-  document.querySelector(".userLectureGraphContainer").classList.remove("hidden");
-  document.querySelector(".userLectureStudyingContainer").classList.add("hidden");
+  document
+    .querySelector(".userLectureGraphContainer")
+    .classList.remove("hidden");
+  document
+    .querySelector(".userLectureStudyingContainer")
+    .classList.add("hidden");
   document.querySelector(".userLectureCancelContainer").classList.add("hidden");
-  document.querySelector(".userLectureCompleteContainer").classList.add("hidden");
+  document
+    .querySelector(".userLectureCompleteContainer")
+    .classList.add("hidden");
 
-  document.querySelector("#lecturemenu1").style.backgroundColor = "cornflowerblue";
+  document.querySelector("#lecturemenu1").style.backgroundColor =
+    "cornflowerblue";
   document.querySelector("#lecturemenu1").style.color = "white";
   document.querySelector("#lecturemenu2").style.backgroundColor = "white";
   document.querySelector("#lecturemenu2").style.color = "black";
@@ -326,11 +384,16 @@ document.querySelector("#lecturemenu1").addEventListener("click", () => {
 
 document.querySelector("#lecturemenu2").addEventListener("click", () => {
   document.querySelector(".userLectureGraphContainer").classList.add("hidden");
-  document.querySelector(".userLectureStudyingContainer").classList.remove("hidden");
+  document
+    .querySelector(".userLectureStudyingContainer")
+    .classList.remove("hidden");
   document.querySelector(".userLectureCancelContainer").classList.add("hidden");
-  document.querySelector(".userLectureCompleteContainer").classList.add("hidden");
+  document
+    .querySelector(".userLectureCompleteContainer")
+    .classList.add("hidden");
 
-  document.querySelector("#lecturemenu2").style.backgroundColor = "cornflowerblue";
+  document.querySelector("#lecturemenu2").style.backgroundColor =
+    "cornflowerblue";
   document.querySelector("#lecturemenu2").style.color = "white";
   document.querySelector("#lecturemenu1").style.backgroundColor = "white";
   document.querySelector("#lecturemenu1").style.color = "black";
@@ -342,11 +405,18 @@ document.querySelector("#lecturemenu2").addEventListener("click", () => {
 
 document.querySelector("#lecturemenu3").addEventListener("click", () => {
   document.querySelector(".userLectureGraphContainer").classList.add("hidden");
-  document.querySelector(".userLectureStudyingContainer").classList.add("hidden");
-  document.querySelector(".userLectureCancelContainer").classList.remove("hidden");
-  document.querySelector(".userLectureCompleteContainer").classList.add("hidden");
+  document
+    .querySelector(".userLectureStudyingContainer")
+    .classList.add("hidden");
+  document
+    .querySelector(".userLectureCancelContainer")
+    .classList.remove("hidden");
+  document
+    .querySelector(".userLectureCompleteContainer")
+    .classList.add("hidden");
 
-  document.querySelector("#lecturemenu3").style.backgroundColor = "cornflowerblue";
+  document.querySelector("#lecturemenu3").style.backgroundColor =
+    "cornflowerblue";
   document.querySelector("#lecturemenu3").style.color = "white";
   document.querySelector("#lecturemenu1").style.backgroundColor = "white";
   document.querySelector("#lecturemenu1").style.color = "black";
@@ -358,11 +428,16 @@ document.querySelector("#lecturemenu3").addEventListener("click", () => {
 
 document.querySelector("#lecturemenu4").addEventListener("click", () => {
   document.querySelector(".userLectureGraphContainer").classList.add("hidden");
-  document.querySelector(".userLectureStudyingContainer").classList.add("hidden");
+  document
+    .querySelector(".userLectureStudyingContainer")
+    .classList.add("hidden");
   document.querySelector(".userLectureCancelContainer").classList.add("hidden");
-  document.querySelector(".userLectureCompleteContainer").classList.remove("hidden");
+  document
+    .querySelector(".userLectureCompleteContainer")
+    .classList.remove("hidden");
 
-  document.querySelector("#lecturemenu4").style.backgroundColor = "cornflowerblue";
+  document.querySelector("#lecturemenu4").style.backgroundColor =
+    "cornflowerblue";
   document.querySelector("#lecturemenu4").style.color = "white";
   document.querySelector("#lecturemenu2").style.backgroundColor = "white";
   document.querySelector("#lecturemenu2").style.color = "black";

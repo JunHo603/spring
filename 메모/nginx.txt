@@ -1,0 +1,36 @@
+nginx 명령어
+
+시작
+start nginx
+
+종료
+nginx -s stop
+* -s는 즉시 시작
+
+재시작
+nginx -s reload
+
+빌드하는법
+npm run build
+
+-----------------------------------------------
+80은 많이 쓰는 포트라서 잘 안씀
+왠만한 Rest API는 /api로 시작하면 좋음
+
+conf/nginx.conf 설정
+-----------------------------------------------
+스프링
+mvnw clean package
+
+Java_HOME 어쩌구 에러
+=> java가 글로벌환경에 설치되어 있지않기 때문
+해결 = 제어판 -> 제어판 검색창에 "환경 변수" 입력 -> 시스템 환경변수 편집 -> 환경변수 클릭 -> 시스템변수에 새로만들기 -> 
+          JAVA_Home 추가, 값은 Program Files/Java/jdk-21 주소 추가
+          Path 추가, 값은 %JAVA_HOME%\bin\ 추가
+스프링 서버 실행 명령
+java -jar 파일이름.jar
+-----------------------------------------------
+
+1. 백엔드, 프론트 절대주소 삭제
+2. WebConfig -> allowedOrigins 추가(웹서버 주소 ex) 192.168.0.77 -> cmd에서 ipconfig 실행 ip4v 확인)
+3. nginx.conf 수정

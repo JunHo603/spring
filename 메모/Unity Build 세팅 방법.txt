@@ -1,0 +1,57 @@
+Unity Build 세팅 방법
+
+1. Building Setting => WebGL => Player Settings
+=> Publishing Settings => Compression Format => Disabled
+
+[Skip]
+2. 전처리 지시어가 있는 경우
+Building Setting => WebGL => Player Settings
+=> Other settings => Scripting Define Symbols 에 추가
+
+3. In order to build a player, go to 'Player Settings...' to resolve the incompatibility between the Color Space and the current settings.
+
+이 메시지는 Unity에서 플레이어를 빌드하려고 할 때, Color Space 설정과 관련된 호환성 문제를 해결해야 한다는 것을 나타냅니다. Unity 프로젝트에서 Color Space는 색상 처리 방식을 정의하며, 이 설정이 빌드 과정에서 문제를 일으킬 수 있습니다. 문제를 해결하려면 다음 단계를 따르세요:
+
+Player Settings 열기:
+
+Unity 에디터 상단 메뉴에서 File을 클릭한 후, Build Settings...를 선택합니다.
+Build Settings 창에서 Player Settings... 버튼을 클릭합니다.
+Color Space 확인:
+
+Player Settings 창에서 Other Settings 섹션을 찾습니다.
+Rendering 또는 Graphics 설정에서 Color Space 옵션을 확인합니다.
+이 옵션은 Gamma 또는 Linear로 설정할 수 있습니다.
+Color Space 설정 변경:
+
+현재 설정된 Color Space가 프로젝트나 빌드에 적합한지 확인하세요.
+필요에 따라 Gamma 또는 Linear로 변경해보세요.
+Gamma는 전통적인 색상 처리 방식이고, Linear는 더 정확한 색상 계산을 제공하지만 성능에 영향을 줄 수 있습니다.
+
+Linear =>  Gamma
+
+4. High quality lightmap encoding requires WebGL 2 only. Uncheck 'Automatic Graphics API' if it's set and remove the WebGL 1 API.
+
+이 메시지는 Unity에서 WebGL 빌드를 할 때, 고품질 라이트맵 인코딩을 사용하려면 WebGL 2.0이 필요하다는 것을 알려줍니다.
+WebGL 1.0과 WebGL 2.0은 서로 다른 그래픽 API를 제공하며, 고품질 라이트맵 인코딩을 사용하려면 WebGL 2.0으로 빌드해야 합니다.
+이 문제를 해결하려면 다음 단계를 따르세요:
+
+Player Settings 열기:
+
+Unity 에디터 상단 메뉴에서 File을 클릭한 후, Build Settings...를 선택합니다.
+Build Settings 창에서 Player Settings... 버튼을 클릭합니다.
+WebGL 설정 변경:
+
+Player Settings 창에서 Other Settings 섹션을 찾습니다.
+Graphics APIs 항목을 확인합니다. 기본적으로 Automatic Graphics API가 체크되어 있을 수 있습니다.
+Automatic Graphics API 비활성화:
+
+Automatic Graphics API 체크박스를 해제합니다. 그러면 Graphics API 목록이 표시됩니다.
+WebGL 1.0 API 제거:
+
+Graphics APIs 목록에서 WebGL 1.0을 선택한 후, 목록에서 제거합니다.
+WebGL 2.0 API 추가:
+
+Graphics APIs 목록에 WebGL 2.0이 포함되어 있는지 확인합니다.
+포함되어 있지 않다면, Add 버튼을 클릭하여 추가합니다.
+
+설정 저장 및 빌드

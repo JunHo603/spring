@@ -7,7 +7,7 @@ const lectureUrl = "http://localhost:8080/api/lecture/" + lectureId;
 const teacherUrl = "http://localhost:8080/teacher/" + lectureId;
 const contentUrl =
   "http://localhost:8080/lms/lecture/progress/" + userId + "/" + lectureId;
-const courseUrl = "http://localhost:8080/course/";
+const courseUrl = "http://localhost:8080/api/course/";
 console.log(contentUrl);
 // 각 페이지별 #header와 #footer에 html파일 넣기
 function loadHtml() {
@@ -242,7 +242,7 @@ function contentSearch(dataList) {
     const note = document.createElement("td");
     const noteA = document.createElement("a");
     noteA.href = data.learning_pdf_path;
-    noteA.target="_blank" // 새창으로 열리도록
+    noteA.target = "_blank"; // 새창으로 열리도록
     noteA.textContent = "PDF 보기";
     note.appendChild(noteA);
     tr.appendChild(note);

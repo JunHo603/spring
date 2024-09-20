@@ -1,4 +1,4 @@
-const coruseUrl = "http://localhost:8080/course/saveCourseRegistration";
+const coruseUrl = "http://localhost:8080/api/course/saveCourseRegistration";
 // 각 페이지별 #header와 #footer에 html파일 넣기
 function loadHtml() {
   axios
